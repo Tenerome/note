@@ -1,0 +1,1 @@
+环境变量：Java，可以直接在path中配置，但是想tomcat不能识别，只能配置java_home或者jre_home
