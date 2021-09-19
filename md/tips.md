@@ -27,3 +27,20 @@ vscode自带shift+alt+f格式化
 code runner：
 
 默认输出在  输出 中，不能输入，需要设置code runner   run  in  terminal，在终端运行
+
+### 刷系统
+
+security boot：disable
+
+cms：enable
+
+F10开启boot
+
+### git
+
+git config --global user.name ''
+
+git config --global user.email ''
+
+git clone
+
