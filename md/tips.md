@@ -18,6 +18,16 @@ jdk:xxx/bin
 
 Java，可以直接在path中配置，但是想tomcat不能识别，只能配置java_home或者jre_home
 
+##### jdk和tomcat
+
+tomcat 8 不能用太高的jdk,用jdk 8就行
+
+##### jdk改完没有作用
+
+c-program file和 x86-common files-oracle
+
+删掉，这里默认配置jdk路径
+
 ### 插件
 
 #### vscode
