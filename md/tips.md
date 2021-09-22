@@ -92,3 +92,11 @@ git clone
 
 首选项-设置-功能-资源管理器-compack folders
 
+#### vscode -java package机制，找不到主类
+
+code runner 设置，coderunner.excutormap
+
+java
+
+"java": "cd $dir && javac -d. $fileName && java app.$fileNameWithoutExt",
+
