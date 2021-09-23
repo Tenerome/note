@@ -92,7 +92,7 @@ git clone
 
 首选项-设置-功能-资源管理器-compack folders
 
-#### vscode -java package机制，找不到主类
+### vscode -java package机制，找不到主类
 
 code runner 设置，coderunner.excutormap
 
@@ -100,3 +100,10 @@ java
 
 "java": "cd $dir && javac -d. $fileName && java app.$fileNameWithoutExt",
 
+### dosbox
+
+下载，安装
+
+挂载：mount   C（dosbox的c盘） xxx（自己的路径）
+
+环境变量：set PATH =$PATH$;xxx
