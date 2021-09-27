@@ -107,3 +107,15 @@ java
 挂载：mount   C（dosbox的c盘） xxx（自己的路径）
 
 环境变量：set PATH =$PATH$;xxx
+
+### vscode中文乱码
+
+vscode 默认utf-8，最好再打开自动检测
+
+设置-搜auto guess -启用
+
+windows默认为gbk，设置-语言-管理语言设置 -更改区域-启用utf-8
+
+最后java默认gbk，添加一个环境变量，名：JAVA_TOOL_OPTIONS
+
+值-Dfile.encoding=UTF-8
