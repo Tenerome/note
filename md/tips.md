@@ -119,3 +119,17 @@ windows默认为gbk，设置-语言-管理语言设置 -更改区域-启用utf-8
 最后java默认gbk，添加一个环境变量，名：JAVA_TOOL_OPTIONS
 
 值-Dfile.encoding=UTF-8
+
+### vscode 开发javaee
+
+1.jdk，jdk-utf-8
+
+2.maven，tomcat
+
+3.vscode扩展：maven for java，jsp，tomcat for java
+
+4.创建maven原型，在main中创建java，写beans
+
+​	在web-inf中创建classes，放生成的class
+
+5.直接run on tomcat
