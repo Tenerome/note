@@ -133,3 +133,7 @@ windows默认为gbk，设置-语言-管理语言设置 -更改区域-启用utf-8
 ​	在web-inf中创建classes，放生成的class
 
 5.直接run on tomcat
+
+### cmd管理员
+
+直接搜索栏输入CMD后（不要立即回车进入），按住CTRL+SHIFT+ENTER键可直接进入管理员模式命令行。
