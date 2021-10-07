@@ -34,7 +34,35 @@ c-program file和 x86-common files-oracle
 
 vscode自带shift+alt+f格式化
 
-code runner：
+code runner：设置 run in terminal
+
+Open in default browser
+
+Tomcat for java
+
+c/c++
+
+c++ Intelllisense
+
+chinese
+
+html snippets
+
+intellisense for css in html
+
+java server page
+
+jstl snippets:jsp intellisense
+
+language support for java by red hat
+
+masm
+
+
+
+
+
+
 
 默认输出在  输出 中，不能输入，需要设置code runner   run  in  terminal，在终端运行
 
@@ -134,6 +162,12 @@ windows默认为gbk，设置-语言-管理语言设置 -更改区域-启用utf-8
 
 5.直接run on tomcat
 
+
+
 ### cmd管理员
 
 直接搜索栏输入CMD后（不要立即回车进入），按住CTRL+SHIFT+ENTER键可直接进入管理员模式命令行。
+
+### servlet包找不到，webservlet注解无效
+
+把tomcat-lib-annotations-api.jar和servlet-api.jar复制到jdk-jre-lib-ext中就行了
