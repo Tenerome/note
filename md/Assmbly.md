@@ -8,6 +8,8 @@ link
 
 运行/debug
 
+debug xx.exe 全称！！
+
 
 
 | Debug-R | 查看、改变CPU寄存器的内容                |
