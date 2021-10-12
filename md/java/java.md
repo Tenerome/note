@@ -80,6 +80,150 @@ static：定义静态变量，也叫类变量
     }
 ````
 
+#### 构造方法
+
+1.构造方法名字和类名相同
+
+2.构造方法没有返回值
+
+3.构造方法一般用于对成员变量的初始化，重载
+
+4.构造方法在创建对象时自动创建
+
+
+
+·可以在一个构造方法中调用其他重载的构造方法 
+
+eg:
+
+````java
+
+public class Car {
+    int id;
+    String brand;
+    String color;
+    int weight;
+
+    public Car() {
+    }
+    public Car(int id,String brand){
+        this(id, brand, null);
+    }
+    //（2）在构造方法中做调用，调用另一个重载的构造方法，让重复的代码只写一次，也便于以后的时候修改变量。
+    public Car(int id,String brand,String color){
+
+        //this.id = id;
+        //this.brand = brand;
+        //this.color = color;
+        //重复的代码只写一次做调用
+        //一个构造方法，调用另一个重载的构造方法
+        this(id, brand, color, 0);//0位重量的默认值
+    }
+
+    //（1）我们在构造方法中集中的处理所有参数
+    public Car(int id,String brand,String color,int weight){
+        this.id = id;
+        this.brand = brand;
+        this.color = color;
+        this.weight = weight;
+    }
+
+    public void go(){
+        System.out.println(
+            id+"号"+color+"的汽车启动");
+    }
+    public void stop(){
+        System.out.println(
+            id+"号"+color+"的汽车停止");
+    }
+    public void turnLeft(){
+        System.out.println(
+            id+"号"+color+"的汽车左转");
+    }
+    public void turnRight(){
+        System.out.println(
+            id+"号"+color+"的汽车右转");
+    }
+}
+
+````
+
+#### 实例成员和类成员
+
+·类成员（静态成员）：
+
+用static修饰
+
+属于类，也属于该类创建的对象
+
+在类外，可以用类名访问也可以用对象名访问
+
+·实例成员：
+
+不用static修饰
+
+只属于对象
+
+在类外只能用对象名访问
+
+
+
+·在类内，实例方法可以访问实例成员和类成员，类方法只能访问类成员（不用static修饰的方法可以访问static修饰的变量和不用static修饰的，用static修饰的方法只能访问static修饰的变量）
+
+
+
+eg：
+
+````java
+public class InstanceStatic {
+
+    int x = 3;// 类的实例变量，初始化值为3
+    static int y = 4;// 类的静态变量，初始化值为4
+
+    public static void staticmethod()// 静态方法
+    {
+        //System.out.println(x);  X  静态方法不能直接调用实例成员
+        System.out.println("实例变量x = " + new InstanceStatic().x);// 在静态方法中访问类的实例变量需首先进行类的实例化
+        System.out.println("静态变量y = " + y);// 在静态方法中可直接访问类的静态变量
+        staticmethod1();//静态方法可以调用其他静态方法
+        // instancemethod();  X 静态方法不能访问实例方法
+        new InstanceStatic().instancemathod1();
+    }
+
+    public static void  staticmethod1(){  //静态方法2
+        System.out.println("另一个静态方法");
+    }
+    public void instancemathod(){
+        System.out.println(x);//实力访问可以直接访问实例变量，类变量，实例方法，类方法
+        System.out.println(y);
+        staticmethod1();
+        instancemathod1();
+    }
+    public void instancemathod1(){
+        System.out.println("另一个实例方法");
+    }
+    public static void main(String[] args) {
+        System.out.println("====类方法====");
+        InstanceStatic.staticmethod();
+        System.out.println("====实例方法===");
+        InstanceStatic cc=new InstanceStatic();
+        cc.instancemathod();
+    }
+}
+
+结果：
+====类方法====
+实例变量x = 3
+静态变量y = 4
+另一个静态方法
+另一个实例方法
+====实例方法===
+3
+4
+另一个静态方法
+另一个实例方法
+````
+
 
 
 
