@@ -36,7 +36,7 @@ substring() 方法用于提取字符串中介于两个指定下标之间的字�
 stringObject.substring(start,stop)
 ````
 
-### 类的定义
+### 类
 
 格式：
 
@@ -92,7 +92,7 @@ static：定义静态变量，也叫类变量
 
 
 
-·可以在一个构造方法中调用其他重载的构造方法 
+|可以在一个构造方法中调用其他重载的构造方法 
 
 eg:
 
@@ -150,7 +150,7 @@ public class Car {
 
 #### 实例成员和类成员
 
-·类成员（静态成员）：
+|类成员（静态成员）：
 
 用static修饰
 
@@ -158,7 +158,7 @@ public class Car {
 
 在类外，可以用类名访问也可以用对象名访问
 
-·实例成员：
+|实例成员：
 
 不用static修饰
 
@@ -168,7 +168,7 @@ public class Car {
 
 
 
-·在类内，实例方法可以访问实例成员和类成员，类方法只能访问类成员（不用static修饰的方法可以访问static修饰的变量和不用static修饰的，用static修饰的方法只能访问static修饰的变量）
+|在类内，实例方法可以访问实例成员和类成员，类方法只能访问类成员（不用static修饰的方法可以访问static修饰的变量和不用static修饰的，用static修饰的方法只能访问static修饰的变量）
 
 
 
@@ -226,5 +226,238 @@ public class InstanceStatic {
 
 
 
+### 包
 
+导包：
+
+````java
+import 包名1.包名2. ...  类名；
+
+import 包名1.包名2.*;//   .*表示导入该包下所有类
+
+````
+
+
+
+### 类和类成员的可见性：
+
+类的可见性：
+
+public修饰：任何位置可见
+
+不用public 修饰：仅在当前包可见
+
+|一个类文件，只能有一个public修饰的class，且和文件名字相同
+
+
+
+成员可见性：
+
+public：任何位置可见
+
+protected：当前包和当前类的子类
+
+private：只能在当前类可见
+
+无修饰符：默认，当前包可见
+
+### 包装类和字符串类
+
+常用包装类：
+
+Boolean(boolean)
+
+Character(char)
+
+Byte(byte)
+
+Integer(int)
+
+Short(short)
+
+Long(long)
+
+Float(float)
+
+Double(double)
+
+
+
+Integer的方法：
+
+````java
+byte  byteValue();//把字符串转化成byte型
+static int compare(int x,int y);//比较两个整数的大小
+static int max(int x,int y);//取较小值
+static int min(int x,int y);
+static int parseInt(String s);//把字符串转换成整型
+static Integer valueOf(String s);//把字符串转换成Integer
+````
+
+
+
+字符串类：
+
+String静态字符串:
+
+````java
+char charAt(int index);//获取字符串的第n位
+boolean equals(Object anObject);//判断两个字符串是否相等
+int length();//获取字符串长度
+String subString(int x,int y);//截取字符串x到y位
+````
+
+StringButtfer动态字符串
+
+````java
+StringBuffer append();//末尾插入
+StringBuffer insert();//中间插入
+````
+
+### Array类
+
+方法：
+
+````java
+static int binarySearch(int[] a,int k);查找数组元素	
+static int compare(boolean[] a,boolean[] b);比较两个数组
+static int[] copyOf(int[] original,int newlength)复制数组
+static boolean equals(boolean[] a,boolean[] b)比较是否相等
+static void fill(int[] a,int val)添加元素
+static void sort(int[] a)对数组排序
+static String toString(int[] a)数组字符串化
+````
+
+### 链表和动态数组
+
+LinkedList<E>泛型
+
+方法
+
+````java
+boolean	add(E e)
+          将指定元素添加到此列表的结尾。
+ void	add(int index, E element)
+          在此列表中指定的位置插入指定的元素。
+ void	addFirst(E e)
+          将指定元素插入此列表的开头。
+ void	addLast(E e)
+          将指定元素添加到此列表的结尾。
+ void	clear()
+          从此列表中移除所有元素。
+ boolean	contains(Object o)
+          如果此列表包含指定元素，则返回 true。
+ E	element()
+          获取但不移除此列表的头（第一个元素）。
+ E	get(int index)
+          返回此列表中指定位置处的元素。
+ E	getFirst()
+          返回此列表的第一个元素。
+ E	getLast()
+          返回此列表的最后一个元素。
+ boolean	offer(E e)
+          将指定元素添加到此列表的末尾（最后一个元素）。
+ boolean	offerFirst(E e)
+          在此列表的开头插入指定的元素。
+ boolean	offerLast(E e)
+          在此列表末尾插入指定的元素。
+ E	pop()
+          从此列表所表示的堆栈处弹出一个元素。
+ void	push(E e)
+          将元素推入此列表所表示的堆栈。
+ E	remove()
+          获取并移除此列表的头（第一个元素）。
+ E	remove(int index)
+          移除此列表中指定位置处的元素。
+          从此列表中移除最后一次出现的指定元素（从头部到尾部遍历列表时）。
+ E	set(int index, E element)
+          将此列表中指定位置的元素替换为指定的元素。
+ int	size()
+          返回此列表的元素数。
+ Object[]	toArray()
+          返回以适当顺序（从第一个元素到最后一个元素）包含此列表中所有元素的数组。
+<T> T[]
+toArray(T[] a)
+          返回以适当顺序（从第一个元素到最后一个元素）包含此列表中所有元素的数组；返回数组的运行时类型为指定数组的类型。
+````
+
+Vector<E>动态数组
+
+方法
+
+````java
+boolean	add(E e)
+          将指定元素添加到此向量的末尾。
+ void	add(int index, E element)
+          在此向量的指定位置插入指定的元素。
+ int	capacity()
+          返回此向量的当前容量。
+ void	clear()
+          从此向量中移除所有元素。
+ boolean	contains(Object o)
+          如果此向量包含指定的元素，则返回 true。
+ void	copyInto(Object[] anArray)
+          将此向量的组件复制到指定的数组中。
+ Enumeration<E>	elements()
+          返回此向量的组件的枚举。
+ void	ensureCapacity(int minCapacity)
+          增加此向量的容量（如有必要），以确保其至少能够保存最小容量参数指定的组件数。
+ boolean	equals(Object o)
+          比较指定对象与此向量的相等性。
+ E	firstElement()
+          返回此向量的第一个组件（位于索引 0) 处的项）。
+ E	get(int index)
+          返回向量中指定位置的元素。
+ int	hashCode()
+          返回此向量的哈希码值。
+ int	indexOf(Object o)
+          返回此向量中第一次出现的指定元素的索引，如果此向量不包含该元素，则返回 -1。
+ int	indexOf(Object o, int index)
+          返回此向量中第一次出现的指定元素的索引，从 index 处正向搜索，如果未找到该元素，则返回 -1。
+ void	insertElementAt(E obj, int index)
+          将指定对象作为此向量中的组件插入到指定的 index 处。
+ boolean	isEmpty()
+          测试此向量是否不包含组件。
+ E	lastElement()
+          返回此向量的最后一个组件。
+ int	lastIndexOf(Object o)
+          返回此向量中最后一次出现的指定元素的索引；如果此向量不包含该元素，则返回 -1。
+ int	lastIndexOf(Object o, int index)
+          返回此向量中最后一次出现的指定元素的索引，从 index 处逆向搜索，如果未找到该元素，则返回 -1。
+ E	remove(int index)
+          移除此向量中指定位置的元素。
+ boolean	remove(Object o)
+          移除此向量中指定元素的第一个匹配项，如果向量不包含该元素，则元素保持不变。
+ boolean	removeAll(Collection<?> c)
+          从此向量中移除包含在指定 Collection 中的所有元素。
+ void	removeAllElements()
+          从此向量中移除全部组件，并将其大小设置为零。
+ boolean	removeElement(Object obj)
+          从此向量中移除变量的第一个（索引最小的）匹配项。
+ void	removeElementAt(int index)
+          删除指定索引处的组件。
+protected  void	removeRange(int fromIndex, int toIndex)
+          从此 List 中移除其索引位于 fromIndex（包括）与 toIndex（不包括）之间的所有元素。
+ boolean	retainAll(Collection<?> c)
+          在此向量中仅保留包含在指定 Collection 中的元素。
+ E	set(int index, E element)
+          用指定的元素替换此向量中指定位置处的元素。
+ void	setElementAt(E obj, int index)
+          将此向量指定 index 处的组件设置为指定的对象。
+ void	setSize(int newSize)
+          设置此向量的大小。
+ int	size()
+          返回此向量中的组件数。
+ List<E>	subList(int fromIndex, int toIndex)
+          返回此 List 的部分视图，元素范围为从 fromIndex（包括）到 toIndex（不包括）。
+ Object[]	toArray()
+          返回一个数组，包含此向量中以恰当顺序存放的所有元素。
+<T> T[]
+toArray(T[] a)
+          返回一个数组，包含此向量中以恰当顺序存放的所有元素；返回数组的运行时类型为指定数组的类型。
+ String	toString()
+          返回此向量的字符串表示形式，其中包含每个元素的 String 表示形式。
+ void	trimToSize()
+          对此向量的容量进行微调，使其等于向量的当前大小。
+````
 
