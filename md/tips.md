@@ -140,13 +140,17 @@ java
 
 vscode 默认utf-8，最好再打开自动检测
 
-设置-搜auto guess -启用
+-设置-搜auto guess -启用
 
-windows默认为gbk，设置-语言-管理语言设置 -更改区域-启用utf-8
+-windows默认为gbk，设置-语言-管理语言设置 -更改区域-启用utf-8
 
-最后java默认gbk，添加一个环境变量，名：JAVA_TOOL_OPTIONS
+-最后java默认gbk，添加一个环境变量，名：JAVA_TOOL_OPTIONS
 
 值-Dfile.encoding=UTF-8
+
+-注册表-计算机\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Command Processor-
+
+新建字符串autorun，值设为chcp 65001
 
 ### vscode 开发javaee
 
@@ -171,3 +175,29 @@ windows默认为gbk，设置-语言-管理语言设置 -更改区域-启用utf-8
 ### servlet包找不到，webservlet注解无效
 
 把tomcat-lib-annotations-api.jar和servlet-api.jar复制到jdk-jre-lib-ext中就行了
+
+### vscode自定义snippet
+
+新建-用户片段
+
+json文件格式  
+
+ // "片段名": {
+
+  // "prefix": "log",
+
+  // "body": [
+
+  //   "console.log('$1');",
+
+  //   "$2"
+
+  // ],
+
+  // "description": "Log output to console"
+
+  // }
+
+转义:\"输出"
+
+$2光标移动到这
