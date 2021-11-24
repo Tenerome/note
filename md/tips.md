@@ -156,15 +156,23 @@ vscode 默认utf-8，最好再打开自动检测
 
 1.jdk，jdk-utf-8
 
-2.maven，tomcat
+2.tomcat
 
-3.vscode扩展：maven for java，jsp，tomcat for java
+3.在tomcat上运行的web工程
 
-4.创建maven原型，在main中创建java，写beans
+​		需要的文件结构
 
-​	在web-inf中创建classes，放生成的class
+​		webapp
+
+​		--WEB-INF      必须的配置文件
+
+​		---classes       编译好的class
+
+​      --html和jsp
 
 5.直接run on tomcat
+
+
 
 
 
@@ -201,3 +209,25 @@ json文件格式
 转义:\"输出"
 
 $2光标移动到这
+
+### vscode中package问题
+
+runcode 改为javac -d ./  
+
+生成的class包含包名
+
+如果没有写package，可以直接运行
+
+如果有包，运行时用java   包名.class
+
+### c scoket编译问题
+
+需要外链lib
+
+gcc   -L/库文件夹-l库文件名   
+
+gcc filename   -lwsock32  需要外链wsock32 
+
+### vscode runner  code
+
+code runner可以在文件夹中设置不同的run，相当于不同的调试任务
