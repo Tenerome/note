@@ -317,17 +317,128 @@ int main()
     fin.close();
     fout.close();
     cout << aa[1] << endl;
-    cout << cc[0] << endl;
+   cout << cc[0] << endl;
 }
 ````
 
 
 
+### 期末
 
+全局变量，全局静态变量，局部变量，局部静态变量
 
+: 有static的是静态变量，没有的不是
 
+定义在main()外面的是全局变量，main和其他函数地位相同，里面的变量都是局部变量
 
+在函数中可以直接调用全局变量，如果函数中定义了同名的变量，再调用全局变量就要用：：
 
+Virtual继承和不继承：
+
+用virtual修饰的虚函数，用来继承重写，没有virtual修饰的，取决于父类
+
+定义 父类  *x=new 子类
+
+首先父类不能调用子类的函数，自能调用本身的函数，所以，只有两种情况，1.无virtual修饰，调用本身函数。2.有virtual修饰，调用子类重写的函数
+
+定义 子类  *y=new 子类
+
+子类对父类的函数，如果没有同型函数，直接继承父类的函数，如果型名，有virtual修饰，则重写，无virtual修饰，则调用子类的。
+
+特别的：如果子类和父类有同名但不同型，则不能调用父类的同名函数，不能继承或重写的同时还重载
+
+ 
+
+总结：
+
+ 对于父类函数（virtual、非virtual），如果子类没有同名函数，则正常继承
+
+对于父类函数（virtual、非virtual），如果子类有同名函数，无同型（形参不同）函数，则不能调用父类函数
+  对于父类函数（virtual、非virtual），如果有同型函数：
+ ----非virtual函数由指针类型决定调用哪个，既和父类一致，编译时确定
+ ----virtual函数由指针指向的对象决定调用哪个（运行时决定）和子类一致，运行时确定
+
+C++new和delete
+
+New用来开辟新的地址空间，返回一个地址，需要用delete释放空间
+
+用new创建的对象，delete后才能调用析构函数
+
+ 
+
+New可以开启所有类型空间，返回地址，形式：类型  *指针名=new 类型；
+
+ 
+
+对于对象指针：eg: class *p;
+
+如果这样，p只有类型，没有指向，delete时，也能调用类class的析构函数，但是只能释放一次，如果时class *p=new class（）；那么，可以多次delete，多次析构
+
+ 
+
+Const
+
+const int *p: 定义指针，指向的变量的值不能修改(指向整型常量或普通整型，但值不能通过指针修改)
+
+int const *p: 同上
+
+int * const p=&a: 一直指向a，不能改变方向
+
+const int * const p:一直指向不能修改的整型常量
+
+int const * const p:同上
+
+两个不常用的
+
+int (* p )[3];指向数组的指针
+
+int （*p） (形参 ):指向函数返回值为整型的函数指针
+
+ 
+
+三种继承
+
+​    继承优先级:private>protect>public
+
+​       变量或函数函数本身的类型和继承方式，比较，取小的就是继承的访问性
+
+​           eg: protected x,通过private继承，继承后就是private的
+
+​    可见性
+
+​       继承后为public和protected的可以被派生类访问，private不能
+
+​       继承后为public的可以被对象访问，protected和private不能
+
+类外指向类成员和成员函数的指针
+
+​    指向类成员
+
+​       eg：class base{ x; }
+
+​           int base::*p=&base::x;
+
+​           调用：base b;
+
+​               b.*p≌b.x
+
+​    指向成员函数
+
+​       eg：class base{ int fun(int x); }
+
+​           int (base::*p)(int x)=&base::fun;
+
+​           调用：base b;
+
+​               (b.*p)(6);
+
+虚函数：
+
+​    只能是：非静态成员函数
+
+​           析构函数
+
+​           成员运算符重载函数
 
 
 
