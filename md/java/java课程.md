@@ -1,5 +1,23 @@
 ## java课程
 
+### 初识
+
+java面对对象编程语言
+
+版本：
+
+javase：java标准版，java基础
+
+javaee：java企业版
+
+javame：micro嵌入式java
+
+jdk和jre
+
+jre=jvm虚拟机+java类库
+
+jdk=jre+java开发工具
+
 ### 基础
 
 ### 对象，类和方法
@@ -609,4 +627,69 @@ eg:   public abstract    void    show(int x);
 
 ### 多态
 
-重载多态，静态多态性：通过方法实现重载，一个类中的多个方法名相同，形参不同，
+重载多态，静态多态性：通过方法实现重载，一个类中的多个方法名相同，形参不同
+
+覆盖多态：通过方法覆盖实现多态，子类和父类的方法具有相同的方法名和形参，由父类型变量指向的对象类型确定哪个方法执行
+
+### 异常
+
+异常的分类：
+
+Throwable类及其子类统称为异常类
+
+Throwable有两个直接子类：Error和Exception，Exception又分运行时异常（RuntimeException）和一般异常（CheckedException）
+
+所有error和exception都可以抛出或者捕获，但是error和运行时exception的捕获抛出意义不大，应着重注意一般异常的捕获和抛出
+
+常见的异常类:
+
+ArithmeticException：算数异常，
+
+ArrayIndexOutOfBoundsException：数组跃进异常,
+
+FileNotFoundException：文件找不到异常
+
+ClassNotFountException：类找不到异常
+
+异常的处理
+
+1.抛出异常
+
+throws:如果当前方法不知道如何处理异常，可以使用throws抛出给调用者（方法）或者交给jvm，jvm打印异常的跟踪栈信息并终止程序，throws放在方法后，可以抛出多个异常
+
+格式:
+
+```java
+public void test() throws ExceptionClass1,ExceptionClass2{
+//code
+};
+```
+
+子类方法声明抛出的异常类型应该时父类方法声明抛出异常类型的子类或相同
+
+```java
+public class ThrowsTest2{
+    //因为test();会抛出IOException，main方法是调用者
+    //则需要使用try...catch进行捕获或者抛给JVM
+    //抛出时要遵循父类声明抛出“大于”子类声明抛出的原则
+    public static void main(String[] args) throws Exception {
+        test();
+    }
+    public static void test() throws IOException() {
+        //因为FileInputStream构造器会抛出IOException
+        //所以需要使用try...catch块进行处理或使用throws抛给调用者
+        FileInputStream fis = new FileInputStream("a.txt");
+    }
+}
+```
+
+throw:如果需要程序自行抛出异常，应使用throw，抛出的不是类而是对象且只能抛出一个对象，可以单独使用也可以结合catch捕获使用。如果抛出的异常对象是Checked异常则处于try块里被catch捕获或者放在一个带throws的方法里；如果抛出的是RuntimeException则既可以显式使用try…catch捕获也可以不理会它
+
+
+
+
+
+
+
+
+

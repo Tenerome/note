@@ -200,7 +200,187 @@ a:visited   访问过后的情况
 
 ![image-20210907111412190](image-20210907111412190.png)
 
+期末
 
+servlet工作流程
+
+1客户端将请求发送到服务器
+
+2服务器加载servlet并调用init()创建对象
+
+3servlet处理请求并将结果返回给服务器
+
+4服务器将结果返回给客户端
+
+5服务器关闭或空间不足，调用destroy()退出
+
+jsp forword和sendRedirect的区别
+
+sendRedirect,服务器告诉浏览器要跳转的地址，在浏览器跳转，不传参
+
+forword 直接在服务器中跳转，可以传参数
+
+jsp第一次运行时的过程
+
+html部分先不做处理，jsp部分由jsp引擎翻译为java文件，调用jdk编译为class文件，调用jvm执行该class，将结果处理为html和之前的html返回给用户界面
+
+javabean的四种生存范围
+
+page：保存在一页的范围之中，跳转之后无效；
+
+request：可以保存在一次服务器跳转范围中；
+
+session：在一个用户的操作范围中保存，重新打开浏览器的时候才会声明新的；
+
+application：在整个服务器上保存，服务器关闭时才会消失。
+
+jdbc连接数据库常用的类和接口
+
+​    class，DriverManager,Connection,Statement,Resultset,Preparedstatement
+
+request.getRemoteAddrr()获取ip
+
+简述include指令和include动作的功能及区别
+
+指令：
+
+<% @ include file=”xxxx”%>
+
+静态包含页面
+
+不能传递参数
+
+在编译时被执行
+
+在逻辑和语法上和包含页面统一
+
+ 
+
+动作：
+
+<jsp:include page=”xxx”>
+
+动态包含页面
+
+能传递参数
+
+在运行时执行
+
+在逻辑和语法上和包含页面独立
+
+jsp访问数据库的基本步骤
+
+​    1加载驱动程序
+
+​    2创建数据库连接
+
+​    3创建SQL语句对象
+
+​    4执行SQL语句
+
+​    5处理数据返回
+
+HTML，JAVAEE，JSP，JDBC全称和中文
+
+​    HTML:Hyper Text Markup Language:超文本标记语言
+
+​    JAVAEE:Java Enterprise Edition :java企业版
+
+​    JSP:Java Server Page:java服务器端页面
+
+​    JDBC:Java Database Connection:java数据库连接
+
+servlet和jsp的作用和地位
+
+servlet和jsp都是javaee的组件
+
+jsp用于实现软件界面
+
+servlet用于实现软件和组成系统的控制
+
+JAVAEE是一个标准中间件体系结构
+
+是企业分布式应用开发标准集
+
+ 
+
+CONN.COMMIT
+
+ 
+
+JDBC JAVA DateBase Connection
+
+ 
+
+HTTP1.1 无状态 无连接
+
+ 
+
+所有的servlet都必须实现通过servlet接口或者httpseret接口
+
+ 
+
+创建servlet调用init(),摧毁调用destroy()
+
+ 
+
+下列标签中，可以省略尾标签的是
+
+P table title body
+
+jsp注释可以在窗口看到的是：html注释能看到<!--dawd-->，jsp，java注释看不到
+
+ 
+
+xml，servlet，servlet-mapping
+
+<servlet>
+
+<servlet-name>name(servlet唯一的名字)</servlet-name>
+
+<servlet-class>com.bean….(servlet在classes的包结构，也是其完整的包路径)</servlet-class>
+
+</servlet>
+
+ 
+
+<servlet-mapping>
+
+<servlet-name>name(和servlet中的名字必须相同)</servlet-name>
+
+<url-patten>/xxx/xxx(相对路径，相当于注解，是servlet相对于整个webapp的路径)</url-patten>
+
+</servlet-mapping>
+
+ 
+
+Jsp:useBean 没有name属性
+
+ 
+
+<%request.setCharacterEncoding("UTF-8"); %>
+
+ 
+
+<jsp:useBean id="stu" class="com.entity.Student" scope="page"></jsp:useBean>
+
+Id：bean的name，就是下面set,get中的name，相当于实例化的对象名
+
+Scope：作用域，page，request,session,application.
+
+<jsp:setProperty name="stu" property="name" param="name" value=“”/>
+
+Property相当于存储对象stu的成员变量的文件，如果为* 则，自动匹配所有变量
+
+Param，接受表单中name的值，如果为 *，自动匹配同名
+
+Value：手动设置值，
+
+Param和value不能同时用
+
+ 
+
+ 
 
 
 
