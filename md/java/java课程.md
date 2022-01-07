@@ -6,17 +6,25 @@ java面对对象编程语言
 
 版本：
 
-javase：java标准版，java基础
+javase：java标准版，java基础，写C/S结构的客户端
 
-javaee：java企业版
+javaee：java企业版，分布式，写B/S
 
-javame：micro嵌入式java
+javame：micro嵌入式java，写旧版nokia应用
 
-jdk和jre
+### debug for java
+
+单步跳过：直接一步一步调试不进入函数
+
+单步调试：进入函数，会一直进入下一层函数
+
+单步退出：退出当前函数返回上一层
+
+### jdk和jre
 
 jre=jvm虚拟机+java类库
 
-jdk=jre+java开发工具
+jdk=jre+java开发工具（java,javac,javadoc,javap等）
 
 ### 基础
 
@@ -281,7 +289,7 @@ private：只能在当前类可见
 
 ### 包装类和字符串类
 
-常用包装类：
+#### 常用包装类：
 
 Boolean(boolean)
 
@@ -299,9 +307,26 @@ Float(float)
 
 Double(double)
 
+由编译器特别支持的包装称为装箱，所以当内置数据类型被当作对象使用的时候，编译器会把内置类型装箱为包装类。相似的，编译器也可以把一个对象拆箱为内置类型。Number 类属于 java.lang 包。
+
+就是对象和基本类型之间的转换
+
+eg：
+
+```java
+public class Test{
+
+   public static void main(String args[]){
+      Integer x = 5; // boxes int to an Integer object
+      x =  x + 10;   // unboxes the Integer to a int
+      System.out.println(x); 
+   }
+}
+```
 
 
-Integer的方法：
+
+#### Integer的方法：
 
 ````java
 byte  byteValue();//把字符串转化成byte型
@@ -312,9 +337,18 @@ static int parseInt(String s);//把字符串转换成整型
 static Integer valueOf(String s);//把字符串转换成Integer
 ````
 
+#### Character 方法
 
+下面是 Character 类的方法：
 
-字符串类：
+```java
+isLetter()是否是一个字母
+isDigit()是否是一个数字字符
+isWhitespace()是否一个空格
+toString()返回字符的字符串形式，字符串的长度仅为1
+```
+
+#### 字符串类：
 
 String静态字符串:
 
@@ -332,7 +366,13 @@ StringBuffer append();//末尾插入
 StringBuffer insert();//中间插入
 ````
 
-### Array类
+#### StringBuffer和StringBuild
+
+StringBuffer:多线程安全
+
+
+
+#### Array类
 
 方法：
 
@@ -607,7 +647,7 @@ eg:   public abstract    void    show(int x);
 
 
 
-接口定义：
+#### 接口定义：
 
 修饰符	interface	接口名{
 
@@ -633,15 +673,15 @@ eg:   public abstract    void    show(int x);
 
 ### 异常
 
-异常的分类：
+#### 异常的分类：
 
 Throwable类及其子类统称为异常类
 
 Throwable有两个直接子类：Error和Exception，Exception又分运行时异常（RuntimeException）和一般异常（CheckedException）
 
-所有error和exception都可以抛出或者捕获，但是error和运行时exception的捕获抛出意义不大，应着重注意一般异常的捕获和抛出
+**所有error和exception都可以抛出或者捕获，但是error和运行时exception的捕获抛出意义不大，应着重注意一般异常的捕获和抛出**
 
-常见的异常类:
+#### 常见的异常类:
 
 ArithmeticException：算数异常，
 
@@ -651,7 +691,7 @@ FileNotFoundException：文件找不到异常
 
 ClassNotFountException：类找不到异常
 
-异常的处理
+#### 异常的处理
 
 1.抛出异常
 
@@ -685,9 +725,103 @@ public class ThrowsTest2{
 
 throw:如果需要程序自行抛出异常，应使用throw，抛出的不是类而是对象且只能抛出一个对象，可以单独使用也可以结合catch捕获使用。如果抛出的异常对象是Checked异常则处于try块里被catch捕获或者放在一个带throws的方法里；如果抛出的是RuntimeException则既可以显式使用try…catch捕获也可以不理会它
 
+```java
+public class ThrowTest {
+    public static void main(String[] args) {
+        try{
+            throwChecked(3);
+        }catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+        throwRuntime(-3);
+    }
+    //该方法内抛出一个Exception异常对象，必须捕获或抛给调用者
+    public static void throwChecked(int a) throws Exception {
+        if(a < 0) {
+            throw new Exception("a的值应大于0，不符合要求")
+        }
+    }
+    //该方法内抛出一个RuntimeException对象，可以不理会直接交给JVM处理
+    public static void throwRuntime(int a) {
+        if(a < 0) {
+            throw new RuntimeException("a的值应大于0，不符合要求")
+        }
+    }
+}
+```
+
+在Java7之前，父类和子类在声明抛出异常时应符合父类包含的异常“大于等于”子类包含的异常的规则；从Java7开始，Java编译器会检查throw语句抛出的异常的实际类型
+
+![image-20220104125552707](image-20220104125552707.png)
 
 
 
+### swing
+
+java提供两个除磷图形用户界面的类库：
+
+1.java.awt包：Abstract Window Toolkit：抽象窗口工具包
+
+​	java处理图形用户界面的初始途径
+
+​	重量级组件，调用目标平台的GUI处理
+
+2.java.swing包：在AWT基础上构建的新图形界面系统
+
+​	JFC（Foundation Classes）的一部分，轻量级组件，界面和本机OS无关，调用java GUI
+
+
+
+#### GUI设计的三个概念：
+
+组件（Component）：是java的图形用户界面的最基本的组成 部分
+
+容器（Container）：Component的子类，本身也是组件
+
+布局管理器：（layout Manager）：每个容器都有一个布局管理器，用于对组件的定位和尺寸控制
+
+![image-20220104132827329](image-20220104132827329.png)
+
+​	
+
+#### Swing的分类：
+
+1.顶层容器：JFrame（顶层窗口），JApplet（小程序），JDialog（对话框），JWindow（基本窗口）
+
+2.中间容器：JPane（面板），JScrollPane（滑动面板），JSplitPane（分隔面板），JToolBar（工具栏）
+
+3.特殊容器：在GUI上有特殊作用的中间层，eg：JInternalJFrame，JLaveredPane，JRootPane
+
+4.基本控件：人机交互控件：Jbutton（按钮），JComboBox（复选框），JList（列表），JSlider（滚动条），JMenu（菜单栏），JTextField（文本框）
+
+5.信息提示组件：JLable（标签），JProgressBar（进度条），ToolTip（悬浮提示）
+
+6.可编辑的格式化组件：JColorChooser（颜色选择器），JFileChooser（文件选择器），JTable（表格）
+
+
+
+#### Swing使用规则：
+
+Swing组件不能直接添加到顶层容器中，必须添加到与顶层容器相关联的内容面板上
+
+避免使用非Swing的重量级组件
+
+#### 对JFrame添加组件的两种方式
+
+1.用getContentPane（）的add方法
+
+```java
+frame.getContentPane().add(childComponentName);
+```
+
+2.建立一个JPanel或JDesktoppane的中间容器，先把组件添加到容器中，用setContentpane（）方法把该容器置为JFrame的内容面板
+
+```java
+JPanel contentPane=new JPanel();
+....//把其他组件添加到JPanel中
+frame.setContentPane(contentpane);
+
+```
 
 
 
