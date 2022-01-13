@@ -1,8 +1,264 @@
-## 
+## 杂知识
+
+### struct和typedef struct
+
+**struct****和typedef struct**
+
+分三块来讲述：
+　　1 首先：**//注意在C和C++里不同**
+　　　　在C中定义一个结构体类型要用typedef:
+　　　　**typedef struct Student**
+　　　　**{**
+　　　　**int a;**
+　　　　**}Stu;**
+　　　　于是在声明变量的时候就可：Stu stu1;(如果没有typedef就必须用struct Student stu1;来声明)
+　　　　这里的Stu实际上就是struct Student的别名。**Stu==struct Student**
+　　　　另外这里也可以不写Student（于是也不能struct Student stu1;了，必须是Stu stu1;）
+　　　　**typedef struct**
+　　　　**{**
+　　　　**int a;**
+　　　　**}Stu;**
+　　　　但在c++里很简单，直接
+　　　　**struct Student**
+　　　　**{**
+　　　　**int a;**
+　　　　**};**　　　　
+
+　　　　于是就定义了结构体类型Student，声明变量时直接Student stu2；
+
+　　2.其次：
+　　　　在c++中如果用typedef的话，又会造成区别：
+　　　　**struct  Student** 
+　　　　**{** 
+　　　　**int  a;** 
+　　　　**}stu1;//**stu1是一个变量 
+
+
+　　　　**typedef  struct  Student2** 
+　　　　**{** 
+　　　　**int  a;** 
+　　　　**}stu2;**//stu2是一个结构体类型=struct Student 
+
+
+　　　　使用时可以直接访问stu1.a
+　　　　但是stu2则必须先  stu2 s2;
+
+　　　　然后        s2.a=10;
+
+　　3 掌握上面两条就可以了，不过最后我们探讨个没多大关系的问题
+　　　　如果在c程序中我们写：
+　　　　**typedef struct** 
+　　　　**{**
+　　　　**int num;**
+　　　　**int age;**
+　　　　**}aaa,bbb,ccc;**
+　　　　这算什么呢？
+　　　　我个人观察编译器（VC6）的理解，这相当于
+　　　　typedef struct 
+　　　　{
+　　　　int num;
+　　　　int age;
+　　　　}aaa；
+　　　　typedef aaa bbb;
+　　　　typedef aaa ccc;
+　　　　也就是说aaa,bbb,ccc三者都是结构体类型。声明变量时用任何一个都可以,在c++中也是如此。但是你要注意的是这个在c++中如果写掉了typedef关键字，那么aaa，bbb，ccc将是截然不同的三个对象。
+
+　　　　//此处不是很理解。
+
+　　 
+
+ 
+
+ 
+
+　　　　**typedef struct和struct的区别：**
+
+ 
+
+ 
+
+　　　　**typedef struct tagMyStruct**
+　　　　**{**
+　　　　　**int iNum;**
+　　　　　**long lLength;**
+　　　　**} MyStruct;**
+
+　　　　上面的tagMyStruct是标识符，MyStruct是变量类型（相当于（int,char等））。
+
+ 
+
+ 
+
+　　　　这语句实际上完成两个操作：
+
+　　　　　　1) 定义一个新的结构类型
+
+　　　　**struct tagMyStruct**
+　　　　**{**　　
+　　　　　**int iNum;**
+　　　　　**long lLength;**
+　　　　**};**
+
+　　分析：tagMyStruct称为“tag”，即“标签”，实际上是一个临时名字，不论是否有typedefstruct 关键字和tagMyStruct一起，构成了这个结构类型，这个结构都存在。
+
+　　我们可以用struct tagMyStruct varName来定义变量，但要注意，使用tagMyStruct varName来定义变量是不对的，因为struct 和tagMyStruct合在一起才能表示一个结构类型。
+
+　　2) typedef为这个新的结构起了一个名字，叫MyStruct。
+
+　　　　typedef struct tagMyStruct MyStruct;
+
+　　因此，MyStruct实际上相当于struct tagMyStruct，我们可以使用MyStruct varName来定义变量。
+
+　　2.
+
+　　　　**typedef struct tagMyStruct**
+　　　　**{**
+　　　　　**int iNum;**
+　　　　　**long lLength;**
+　　　　**} MyStruct;**
+
+　　　　在C中，这个申明后申请结构变量的方法有两种：
+
+　　　　（1）struct tagMyStruct 变量名
+
+　　　　（2）MyStruct 变量名
+
+　　　　在c++中可以有
+
+　　　　（1）struct tagMyStruct 变量名
+
+　　　　（2）MyStruct 变量名
+
+　　　　（3）tagMyStruct 变量名
+
+
+
+### molloc
+
+1，关于malloc以及相关的几个函数
+
+   \#include <stdlib.h>(Linux下)
+
+​    void *malloc(size_t size);
+​    void free(void *ptr);
+​    void *calloc(size_t nmemb, size_t size);
+​    void *realloc(void *ptr, size_t size);
+
+   也可以这样认为（window下）原型：extern void *malloc(unsigned int num_bytes);
+
+​                           头文件：#include <malloc.h>或者#include <alloc.h>两者的内容是完全一样的。
+
+​    如果分配成功：则返回指向被分配内存空间的指针
+
+​    不然，返回空指针NULL。
+
+​    同时，当内存不再使用的时候，应使用free（）函数将内存块释放掉。
+
+
+
+​    关于：void *,表示未确定类型的指针。C，C++规定，void *类型可以强转为任何其他类型的的指针。
+
+
+
+malloc returns a void pointer to the allocated space, or NULL if there is insufficient memory available. To return a pointer to a type other than void, use a type cast on the return value. The storage space pointed to by the return value is guaranteed to be suitably aligned for storage of any type of object. If size is 0, malloc allocates a zero-length item in the heap and returns a valid pointer to that item. Always check the return from malloc, even if the amount of memory requested is small.
+
+
+
+​     关于void *的其他说法：
+
+​     void * p1;
+
+​     int *p2;
+
+​     p1 = p2;         就是说其他任意类型都可以直接赋值给它，无需进行强转，但是反过来不可以。
+
+
+
+malloc：
+
+malloc分配的内存大小至少为size参数所指定的字节数
+
+malloc的返回值是一个指针，指向一段可用内存的起始地址
+
+多次调用malloc所分配的地址不能有重叠部分，除非某次malloc所分配的地址被释放掉
+
+malloc应该尽快完成内存分配并返回（不能使用NP-hard的内存分配算法）
+
+实现malloc时应同时实现内存大小调整和内存释放函数（realloc和free）
+
+
+
+
+
+
+
+malloc和free函数是配对的，如果申请后不释放就是内存泄露;如果无故释放那就是什么都没有做，释放只能释放一次，如果释放两次及两次以上会出现错误（但是释放空指针例外，释放空指针其实也等于什么都没有做，所以，释放多少次都是可以的）
+
+
+
+
+
+
+
+
+
+
+
+2，malloc和new
+
+   
+
+   new返回指定类型的指针，并且可以自动计算所需要的大小。
+
+  
+
+   int *p;
+
+   p = new int;  //返回类型为int *类型，分配的大小为sizeof(int)
+
+   p = new int[100];  //返回类型为int *类型，分配的大小为sizeof(int) * 100
+
+  
+
+   而malloc则必须由我们计算字节数，并且在返回的时候强转成实际指定类型的指针。
+
+ 
+
+   int *p;
+
+   p = (int *)malloc(sizeof(int));
+
+
+
+​     1,malloc的返回是void *,如果我们写成了: p = malloc(sizeof(int));间接的说明了（将void *转化给了int *,这不合理）
+
+   2，malloc的实参是sizeof(int),用于指明一个整形数据需要的大小，如果我们写成：
+
+​      p = （int *）malloc(1),     那么可以看出：只是申请了一个字节的空间，如果向里面存放了一个整数的话，
+
+​      将会占用额外的3个字节，可能会改变原有内存空间中的数据
+
+   3，malloc只管分配内存，并不能对其进行初始化，所以得到的一片新内存中，其值将是随机的。一般意义上：我
+
+​      们习惯性的将其初始化为NULL。      当然,也可以用memset函数的。
+
+
+
+
+
+简单的说：
+
+
+
+malloc 函数其实就是在内存中：找一片指定大小的空间，然后将这个空间的首地址给一个指针变量，这里的指针变量可以是一个单独的指针，也可以是一个数组的首地址， 这要看malloc函数中参数size的具体内容。我们这里malloc分配的内存空间在逻辑上是连续的，而在物理上可以不连续。我们作为程序员，关注的 是逻辑上的连续，其它的，操作系统会帮着我们处理的。
+
+### 未赋值的变量的值
+
+int a；
+
+a的值直接输出，可能是随机数，也可能是固定的数
 
 ## 从c到c++
-
-
 
 ### gcc和g++的区别
 

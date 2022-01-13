@@ -26,9 +26,93 @@ jre=jvm虚拟机+java类库
 
 jdk=jre+java开发工具（java,javac,javadoc,javap等）
 
-### 基础
+### 杂知识
 
-### 对象，类和方法
+#### java枚举
+
+枚举限制变量只能是预先设定好的值。使用枚举可以减少代码中的 bug 
+
+```java
+//枚举
+class dog{
+    enum dogsize{small,large}
+    dogsize size;//枚举型变量，它的值只能是枚举中的元素
+}
+public class test1{
+    public static void main(String[] args) {
+        dog do1=new dog();
+        do1.size=dog.dogsize.small;
+        System.out.println(do1.size);
+    }
+}
+
+```
+
+
+
+#### instanceof运算符
+
+用于检验对象是否为特定类型
+
+```java
+String name = 'James';
+boolean result = name instanceof String; // 由于name是String类型，所以返回真
+```
+
+#### java增强for循环
+
+```java
+int array[]={1,2,3,4,5,6};
+for(int x:array){
+    sysout(x);//相当于，int i=0; int x=array[i++]; 
+}
+```
+
+#### java数组
+
+1.可以直接用数组名.length直接调用数组长度
+
+##### foreach
+
+可以不使用下标遍历数组
+
+```java
+public class test1{
+    public static void main(String[] args) {
+        int a[]={0,1,2,3,4,5};
+        for(int element:a){
+            System.out.println(element);
+        }
+    }
+}
+```
+
+就是增强for循环
+
+##### java中数组可以作为函数返回值
+
+```java
+public class test1{
+    public static int [] test(){
+        int array[]=new int[10];
+        for(int i=0;i<=9;i++){
+            array[i]=i+1;
+        }
+        return array;
+    }
+    public static void main(String[] args) {
+        System.out.println(test()[2]);
+    }
+}
+```
+
+### java日期和时间
+
+
+
+### 对象基础
+
+#### 对象，类和方法
 
 对象：对客观世界里的任何实体的抽象
 
@@ -36,7 +120,7 @@ jdk=jre+java开发工具（java,javac,javadoc,javap等）
 
 行为：表示实体的动态特征，一个行为的过程可能会影响或改变实体的状态
 
-### 对象的创建
+#### 对象的创建
 
 new运算符用于创建对象，完成3个工作：
 
