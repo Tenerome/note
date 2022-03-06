@@ -45,10 +45,7 @@ public class test1{
         System.out.println(do1.size);
     }
 }
-
 ```
-
-
 
 #### instanceof运算符
 
@@ -108,8 +105,6 @@ public class test1{
 
 ### java日期和时间
 
-
-
 ### 对象基础
 
 #### 对象，类和方法
@@ -130,21 +125,19 @@ new运算符用于创建对象，完成3个工作：
 
 返回该对象在堆中的地址
 
-
-
 concat：用于连接数组
 
-````java
+```java
 arrayObject.concat(arrx,arry);
-````
+```
 
 substring
 
 substring() 方法用于提取字符串中介于两个指定下标之间的字符。
 
-````java
+```java
 stringObject.substring(start,stop)
-````
+```
 
 ### 类
 
@@ -174,7 +167,7 @@ static：定义静态变量，也叫类变量
 
 #### this，return，do，get
 
-````java
+```java
  protected int a,b;
     public int getA(){
         return a;
@@ -188,7 +181,7 @@ static：定义静态变量，也叫类变量
     public void setB(int b){
         this.b=b;       //this.b是类的变量，b是方法setB()的形参
     }
-````
+```
 
 #### 构造方法
 
@@ -200,14 +193,11 @@ static：定义静态变量，也叫类变量
 
 4.构造方法在创建对象时自动创建
 
-
-
 |可以在一个构造方法中调用其他重载的构造方法 
 
 eg:
 
-````java
-
+```java
 public class Car {
     int id;
     String brand;
@@ -255,8 +245,7 @@ public class Car {
             id+"号"+color+"的汽车右转");
     }
 }
-
-````
+```
 
 #### 实例成员和类成员
 
@@ -276,15 +265,11 @@ public class Car {
 
 在类外只能用对象名访问
 
-
-
 |在类内，实例方法可以访问实例成员和类成员，类方法只能访问类成员（不用static修饰的方法可以访问static修饰的变量和不用static修饰的，用static修饰的方法只能访问static修饰的变量）
-
-
 
 eg：
 
-````java
+```java
 public class InstanceStatic {
 
     int x = 3;// 类的实例变量，初始化值为3
@@ -332,22 +317,17 @@ public class InstanceStatic {
 4
 另一个静态方法
 另一个实例方法
-````
-
-
+```
 
 ### 包
 
 导包：
 
-````java
+```java
 import 包名1.包名2. ...  类名；
 
 import 包名1.包名2.*;//   .*表示导入该包下所有类
-
-````
-
-
+```
 
 ### 类和类成员的可见性：
 
@@ -358,8 +338,6 @@ public修饰：任何位置可见
 不用public 修饰：仅在当前包可见
 
 |一个类文件，只能有一个public修饰的class，且和文件名字相同
-
-
 
 #### 成员可见性：
 
@@ -408,18 +386,16 @@ public class Test{
 }
 ```
 
-
-
 #### Integer的方法：
 
-````java
+```java
 byte  byteValue();//把字符串转化成byte型
 static int compare(int x,int y);//比较两个整数的大小
 static int max(int x,int y);//取较小值
 static int min(int x,int y);
 static int parseInt(String s);//把字符串转换成整型
 static Integer valueOf(String s);//把字符串转换成Integer
-````
+```
 
 #### Character 方法
 
@@ -436,39 +412,37 @@ toString()返回字符的字符串形式，字符串的长度仅为1
 
 String静态字符串:
 
-````java
+```java
 char charAt(int index);//获取字符串的第n位
 boolean equals(Object anObject);//判断两个字符串是否相等
 int length();//获取字符串长度
 String subString(int x,int y);//截取字符串x到y位
-````
+```
 
 StringButtfer动态字符串
 
-````java
+```java
 StringBuffer append();//末尾插入
 StringBuffer insert();//中间插入
-````
+```
 
 #### StringBuffer和StringBuild
 
 StringBuffer:多线程安全
 
-
-
 #### Array类
 
 方法：
 
-````java
-static int binarySearch(int[] a,int k);查找数组元素	
+```java
+static int binarySearch(int[] a,int k);查找数组元素    
 static int compare(boolean[] a,boolean[] b);比较两个数组
 static int[] copyOf(int[] original,int newlength)复制数组
 static boolean equals(boolean[] a,boolean[] b)比较是否相等
 static void fill(int[] a,int val)添加元素
 static void sort(int[] a)对数组排序
 static String toString(int[] a)数组字符串化
-````
+```
 
 ### 链表和动态数组
 
@@ -476,132 +450,132 @@ static String toString(int[] a)数组字符串化
 
 方法
 
-````java
-boolean	add(E e)
+```java
+boolean    add(E e)
           将指定元素添加到此列表的结尾。
- void	add(int index, E element)
+ void    add(int index, E element)
           在此列表中指定的位置插入指定的元素。
- void	addFirst(E e)
+ void    addFirst(E e)
           将指定元素插入此列表的开头。
- void	addLast(E e)
+ void    addLast(E e)
           将指定元素添加到此列表的结尾。
- void	clear()
+ void    clear()
           从此列表中移除所有元素。
- boolean	contains(Object o)
+ boolean    contains(Object o)
           如果此列表包含指定元素，则返回 true。
- E	element()
+ E    element()
           获取但不移除此列表的头（第一个元素）。
- E	get(int index)
+ E    get(int index)
           返回此列表中指定位置处的元素。
- E	getFirst()
+ E    getFirst()
           返回此列表的第一个元素。
- E	getLast()
+ E    getLast()
           返回此列表的最后一个元素。
- boolean	offer(E e)
+ boolean    offer(E e)
           将指定元素添加到此列表的末尾（最后一个元素）。
- boolean	offerFirst(E e)
+ boolean    offerFirst(E e)
           在此列表的开头插入指定的元素。
- boolean	offerLast(E e)
+ boolean    offerLast(E e)
           在此列表末尾插入指定的元素。
- E	pop()
+ E    pop()
           从此列表所表示的堆栈处弹出一个元素。
- void	push(E e)
+ void    push(E e)
           将元素推入此列表所表示的堆栈。
- E	remove()
+ E    remove()
           获取并移除此列表的头（第一个元素）。
- E	remove(int index)
+ E    remove(int index)
           移除此列表中指定位置处的元素。
           从此列表中移除最后一次出现的指定元素（从头部到尾部遍历列表时）。
- E	set(int index, E element)
+ E    set(int index, E element)
           将此列表中指定位置的元素替换为指定的元素。
- int	size()
+ int    size()
           返回此列表的元素数。
- Object[]	toArray()
+ Object[]    toArray()
           返回以适当顺序（从第一个元素到最后一个元素）包含此列表中所有元素的数组。
 <T> T[]
 toArray(T[] a)
           返回以适当顺序（从第一个元素到最后一个元素）包含此列表中所有元素的数组；返回数组的运行时类型为指定数组的类型。
-````
+```
 
 #### Vector<E>动态数组
 
 方法
 
-````java
-boolean	add(E e)
+```java
+boolean    add(E e)
           将指定元素添加到此向量的末尾。
- void	add(int index, E element)
+ void    add(int index, E element)
           在此向量的指定位置插入指定的元素。
- int	capacity()
+ int    capacity()
           返回此向量的当前容量。
- void	clear()
+ void    clear()
           从此向量中移除所有元素。
- boolean	contains(Object o)
+ boolean    contains(Object o)
           如果此向量包含指定的元素，则返回 true。
- void	copyInto(Object[] anArray)
+ void    copyInto(Object[] anArray)
           将此向量的组件复制到指定的数组中。
- Enumeration<E>	elements()
+ Enumeration<E>    elements()
           返回此向量的组件的枚举。
- void	ensureCapacity(int minCapacity)
+ void    ensureCapacity(int minCapacity)
           增加此向量的容量（如有必要），以确保其至少能够保存最小容量参数指定的组件数。
- boolean	equals(Object o)
+ boolean    equals(Object o)
           比较指定对象与此向量的相等性。
- E	firstElement()
+ E    firstElement()
           返回此向量的第一个组件（位于索引 0) 处的项）。
- E	get(int index)
+ E    get(int index)
           返回向量中指定位置的元素。
- int	hashCode()
+ int    hashCode()
           返回此向量的哈希码值。
- int	indexOf(Object o)
+ int    indexOf(Object o)
           返回此向量中第一次出现的指定元素的索引，如果此向量不包含该元素，则返回 -1。
- int	indexOf(Object o, int index)
+ int    indexOf(Object o, int index)
           返回此向量中第一次出现的指定元素的索引，从 index 处正向搜索，如果未找到该元素，则返回 -1。
- void	insertElementAt(E obj, int index)
+ void    insertElementAt(E obj, int index)
           将指定对象作为此向量中的组件插入到指定的 index 处。
- boolean	isEmpty()
+ boolean    isEmpty()
           测试此向量是否不包含组件。
- E	lastElement()
+ E    lastElement()
           返回此向量的最后一个组件。
- int	lastIndexOf(Object o)
+ int    lastIndexOf(Object o)
           返回此向量中最后一次出现的指定元素的索引；如果此向量不包含该元素，则返回 -1。
- int	lastIndexOf(Object o, int index)
+ int    lastIndexOf(Object o, int index)
           返回此向量中最后一次出现的指定元素的索引，从 index 处逆向搜索，如果未找到该元素，则返回 -1。
- E	remove(int index)
+ E    remove(int index)
           移除此向量中指定位置的元素。
- boolean	remove(Object o)
+ boolean    remove(Object o)
           移除此向量中指定元素的第一个匹配项，如果向量不包含该元素，则元素保持不变。
- boolean	removeAll(Collection<?> c)
+ boolean    removeAll(Collection<?> c)
           从此向量中移除包含在指定 Collection 中的所有元素。
- void	removeAllElements()
+ void    removeAllElements()
           从此向量中移除全部组件，并将其大小设置为零。
- boolean	removeElement(Object obj)
+ boolean    removeElement(Object obj)
           从此向量中移除变量的第一个（索引最小的）匹配项。
- void	removeElementAt(int index)
+ void    removeElementAt(int index)
           删除指定索引处的组件。
-protected  void	removeRange(int fromIndex, int toIndex)
+protected  void    removeRange(int fromIndex, int toIndex)
           从此 List 中移除其索引位于 fromIndex（包括）与 toIndex（不包括）之间的所有元素。
- boolean	retainAll(Collection<?> c)
+ boolean    retainAll(Collection<?> c)
           在此向量中仅保留包含在指定 Collection 中的元素。
- E	set(int index, E element)
+ E    set(int index, E element)
           用指定的元素替换此向量中指定位置处的元素。
- void	setElementAt(E obj, int index)
+ void    setElementAt(E obj, int index)
           将此向量指定 index 处的组件设置为指定的对象。
- void	setSize(int newSize)
+ void    setSize(int newSize)
           设置此向量的大小。
- int	size()
+ int    size()
           返回此向量中的组件数。
- List<E>	subList(int fromIndex, int toIndex)
+ List<E>    subList(int fromIndex, int toIndex)
           返回此 List 的部分视图，元素范围为从 fromIndex（包括）到 toIndex（不包括）。
- Object[]	toArray()
+ Object[]    toArray()
           返回一个数组，包含此向量中以恰当顺序存放的所有元素。
 <T> T[]
 toArray(T[] a)
           返回一个数组，包含此向量中以恰当顺序存放的所有元素；返回数组的运行时类型为指定数组的类型。
- String	toString()
+ String    toString()
           返回此向量的字符串表示形式，其中包含每个元素的 String 表示形式。
- void	trimToSize()
+ void    trimToSize()
           对此向量的容量进行微调，使其等于向量的当前大小。
-````
+```
 
 ### 类的继承
 
@@ -609,11 +583,11 @@ toArray(T[] a)
 
 继承：描述一般类和特殊类之间的关系的机制
 
-​	父类：一般类
+​    父类：一般类
 
-​	子类：特殊类
+​    子类：特殊类
 
-​	子类拥有父类成员，实现程序复用
+​    子类拥有父类成员，实现程序复用
 
 传递性：A是B的子类，B是C的子类，那么A是C的子类
 
@@ -669,23 +643,21 @@ super.方法访问父类方法
 
 格式
 
-类型1    变量名=	new	类型2(实参)
+类型1    变量名=    new    类型2(实参)
 
 当类型1和2不同时，1和2需要有父子关系
 
 自动转换：1的范围比2大，即1是2的父类
 
-````java
+```java
 AA aa=new BB(5);
-````
-
-
+```
 
 强制转换：1的范围比2小，1是2的子类
 
-````java
+```java
 BB bb=(bb)new AA(5);
-````
+```
 
 变量的类外访问取决于引用变量的类型，上述，aa.x访问的是AA中的x，bb.x访问的是BB中的x，和前面的类型相关
 
@@ -695,7 +667,7 @@ BB bb=(bb)new AA(5);
 
 定义：用abstract 修饰，只有方法声明，没有方法体
 
-格式：public    abstract 	返回值类型	方法名(形参)；
+格式：public    abstract     返回值类型    方法名(形参)；
 
 eg:   public abstract    void    show(int x);
 
@@ -705,7 +677,7 @@ eg:   public abstract    void    show(int x);
 
 格式：
 
-修饰符	abstract 	class{
+修饰符    abstract     class{
 
 抽象方法
 
@@ -729,11 +701,9 @@ eg:   public abstract    void    show(int x);
 
 一个类只有一个父类，但可以实现多个接口
 
-
-
 #### 接口定义：
 
-修饰符	interface	接口名{
+修饰符    interface    接口名{
 
 公共类常量；//用public  static  final修饰
 
@@ -743,7 +713,7 @@ eg:   public abstract    void    show(int x);
 
 接口的实现：
 
-修饰符	class  	类名	implement	接口名{
+修饰符    class      类名    implement    接口名{
 
 方法体；
 
@@ -838,23 +808,19 @@ public class ThrowTest {
 
 ![image-20220104125552707](image-20220104125552707.png)
 
-
-
 ### swing
 
 java提供两个除磷图形用户界面的类库：
 
 1.java.awt包：Abstract Window Toolkit：抽象窗口工具包
 
-​	java处理图形用户界面的初始途径
+​    java处理图形用户界面的初始途径
 
-​	重量级组件，调用目标平台的GUI处理
+​    重量级组件，调用目标平台的GUI处理
 
 2.java.swing包：在AWT基础上构建的新图形界面系统
 
-​	JFC（Foundation Classes）的一部分，轻量级组件，界面和本机OS无关，调用java GUI
-
-
+​    JFC（Foundation Classes）的一部分，轻量级组件，界面和本机OS无关，调用java GUI
 
 #### GUI设计的三个概念：
 
@@ -866,7 +832,7 @@ java提供两个除磷图形用户界面的类库：
 
 ![image-20220104132827329](image-20220104132827329.png)
 
-​	
+​    
 
 #### Swing的分类：
 
@@ -881,8 +847,6 @@ java提供两个除磷图形用户界面的类库：
 5.信息提示组件：JLable（标签），JProgressBar（进度条），ToolTip（悬浮提示）
 
 6.可编辑的格式化组件：JColorChooser（颜色选择器），JFileChooser（文件选择器），JTable（表格）
-
-
 
 #### Swing使用规则：
 
@@ -904,10 +868,4 @@ frame.getContentPane().add(childComponentName);
 JPanel contentPane=new JPanel();
 ....//把其他组件添加到JPanel中
 frame.setContentPane(contentpane);
-
 ```
-
-
-
-
-

@@ -2,10 +2,7 @@
 
 ### struct和typedef struct
 
-**struct****和typedef struct**
-
-分三块来讲述：
-　　1 首先：**//注意在C和C++里不同**
+首先：**//注意在C和C++里不同**
 　　　　在C中定义一个结构体类型要用typedef:
 　　　　**typedef struct Student**
 　　　　**{**
@@ -33,184 +30,31 @@
 　　　　**int  a;** 
 　　　　**}stu1;//**stu1是一个变量 
 
-
 　　　　**typedef  struct  Student2** 
 　　　　**{** 
 　　　　**int  a;** 
 　　　　**}stu2;**//stu2是一个结构体类型=struct Student 
-
 
 　　　　使用时可以直接访问stu1.a
 　　　　但是stu2则必须先  stu2 s2;
 
 　　　　然后        s2.a=10;
 
-　　3 掌握上面两条就可以了，不过最后我们探讨个没多大关系的问题
-　　　　如果在c程序中我们写：
-　　　　**typedef struct** 
-　　　　**{**
-　　　　**int num;**
-　　　　**int age;**
-　　　　**}aaa,bbb,ccc;**
-　　　　这算什么呢？
-　　　　我个人观察编译器（VC6）的理解，这相当于
-　　　　typedef struct 
-　　　　{
-　　　　int num;
-　　　　int age;
-　　　　}aaa；
-　　　　typedef aaa bbb;
-　　　　typedef aaa ccc;
-　　　　也就是说aaa,bbb,ccc三者都是结构体类型。声明变量时用任何一个都可以,在c++中也是如此。但是你要注意的是这个在c++中如果写掉了typedef关键字，那么aaa，bbb，ccc将是截然不同的三个对象。
-
-　　　　//此处不是很理解。
-
-　　 
-
- 
-
- 
-
-　　　　**typedef struct和struct的区别：**
-
- 
-
- 
-
-　　　　**typedef struct tagMyStruct**
-　　　　**{**
-　　　　　**int iNum;**
-　　　　　**long lLength;**
-　　　　**} MyStruct;**
-
-　　　　上面的tagMyStruct是标识符，MyStruct是变量类型（相当于（int,char等））。
-
- 
-
- 
-
-　　　　这语句实际上完成两个操作：
-
-　　　　　　1) 定义一个新的结构类型
-
-　　　　**struct tagMyStruct**
-　　　　**{**　　
-　　　　　**int iNum;**
-　　　　　**long lLength;**
-　　　　**};**
-
-　　分析：tagMyStruct称为“tag”，即“标签”，实际上是一个临时名字，不论是否有typedefstruct 关键字和tagMyStruct一起，构成了这个结构类型，这个结构都存在。
-
-　　我们可以用struct tagMyStruct varName来定义变量，但要注意，使用tagMyStruct varName来定义变量是不对的，因为struct 和tagMyStruct合在一起才能表示一个结构类型。
-
-　　2) typedef为这个新的结构起了一个名字，叫MyStruct。
-
-　　　　typedef struct tagMyStruct MyStruct;
-
-　　因此，MyStruct实际上相当于struct tagMyStruct，我们可以使用MyStruct varName来定义变量。
-
-　　2.
-
-　　　　**typedef struct tagMyStruct**
-　　　　**{**
-　　　　　**int iNum;**
-　　　　　**long lLength;**
-　　　　**} MyStruct;**
-
-　　　　在C中，这个申明后申请结构变量的方法有两种：
-
-　　　　（1）struct tagMyStruct 变量名
-
-　　　　（2）MyStruct 变量名
-
-　　　　在c++中可以有
-
-　　　　（1）struct tagMyStruct 变量名
-
-　　　　（2）MyStruct 变量名
-
-　　　　（3）tagMyStruct 变量名
-
-
-
 ### molloc
 
-1，关于malloc以及相关的几个函数
-
-   \#include <stdlib.h>(Linux下)
-
-​    void *malloc(size_t size);
-​    void free(void *ptr);
-​    void *calloc(size_t nmemb, size_t size);
-​    void *realloc(void *ptr, size_t size);
-
-   也可以这样认为（window下）原型：extern void *malloc(unsigned int num_bytes);
-
-​                           头文件：#include <malloc.h>或者#include <alloc.h>两者的内容是完全一样的。
-
-​    如果分配成功：则返回指向被分配内存空间的指针
-
-​    不然，返回空指针NULL。
-
-​    同时，当内存不再使用的时候，应使用free（）函数将内存块释放掉。
-
-
-
-​    关于：void *,表示未确定类型的指针。C，C++规定，void *类型可以强转为任何其他类型的的指针。
-
-
-
-malloc returns a void pointer to the allocated space, or NULL if there is insufficient memory available. To return a pointer to a type other than void, use a type cast on the return value. The storage space pointed to by the return value is guaranteed to be suitably aligned for storage of any type of object. If size is 0, malloc allocates a zero-length item in the heap and returns a valid pointer to that item. Always check the return from malloc, even if the amount of memory requested is small.
-
-
-
-​     关于void *的其他说法：
+​    1.关于void *：
 
 ​     void * p1;
 
 ​     int *p2;
 
-​     p1 = p2;         就是说其他任意类型都可以直接赋值给它，无需进行强转，但是反过来不可以。
+​     p1 = p2;         
 
+就是说其他任意类型都可以直接赋值给它，无需进行强转，但是反过来不可以。
 
-
-malloc：
-
-malloc分配的内存大小至少为size参数所指定的字节数
-
-malloc的返回值是一个指针，指向一段可用内存的起始地址
-
-多次调用malloc所分配的地址不能有重叠部分，除非某次malloc所分配的地址被释放掉
-
-malloc应该尽快完成内存分配并返回（不能使用NP-hard的内存分配算法）
-
-实现malloc时应同时实现内存大小调整和内存释放函数（realloc和free）
-
-
-
-
-
-
-
-malloc和free函数是配对的，如果申请后不释放就是内存泄露;如果无故释放那就是什么都没有做，释放只能释放一次，如果释放两次及两次以上会出现错误（但是释放空指针例外，释放空指针其实也等于什么都没有做，所以，释放多少次都是可以的）
-
-
-
-
-
-
-
-
-
-
-
-2，malloc和new
-
-   
+2.malloc和new
 
    new返回指定类型的指针，并且可以自动计算所需要的大小。
-
-  
 
    int *p;
 
@@ -218,17 +62,11 @@ malloc和free函数是配对的，如果申请后不释放就是内存泄露;如
 
    p = new int[100];  //返回类型为int *类型，分配的大小为sizeof(int) * 100
 
-  
-
    而malloc则必须由我们计算字节数，并且在返回的时候强转成实际指定类型的指针。
-
- 
 
    int *p;
 
    p = (int *)malloc(sizeof(int));
-
-
 
 ​     1,malloc的返回是void *,如果我们写成了: p = malloc(sizeof(int));间接的说明了（将void *转化给了int *,这不合理）
 
@@ -242,13 +80,7 @@ malloc和free函数是配对的，如果申请后不释放就是内存泄露;如
 
 ​      们习惯性的将其初始化为NULL。      当然,也可以用memset函数的。
 
-
-
-
-
 简单的说：
-
-
 
 malloc 函数其实就是在内存中：找一片指定大小的空间，然后将这个空间的首地址给一个指针变量，这里的指针变量可以是一个单独的指针，也可以是一个数组的首地址， 这要看malloc函数中参数size的具体内容。我们这里malloc分配的内存空间在逻辑上是连续的，而在物理上可以不连续。我们作为程序员，关注的 是逻辑上的连续，其它的，操作系统会帮着我们处理的。
 
@@ -270,7 +102,7 @@ gcc对.c文件处理成c，.cpp处理成c++
 
 ### 传参数的实质
 
-````c
+```c
 void swap(int a,int b){
 int s=a;
 a=b;
@@ -281,7 +113,7 @@ int main(){
 int x,y;
 swap(x,y);     
 }
-````
+```
 
 不能实现函数，传参相当于 int a=x,int b=y.
 
@@ -289,13 +121,11 @@ swap(x,y);
 
 而&和*可以的原因是
 
-int &a=x,int &b=y;是引用变量
+int &a=x,int &b=y;是别名
 
 int *a=x,int *b=y;是指针
 
 ### c和c++
-
-
 
 #### c++的const
 
@@ -341,7 +171,7 @@ int &b=a；b是a的别名
 
 eg：
 
-````c++
+```c++
 template<typename T>
 T min(T a, Tb){
 }
@@ -349,7 +179,7 @@ T min(T a, Tb){
 int x=min();
 
 float y=min();
-````
+```
 
 ### *和&
 
@@ -365,7 +195,7 @@ float y=min();
 
 ### c++内联函数
 
-````c
+```c
 #include <stdio.h>  
 
 inline int prin(){
@@ -377,7 +207,7 @@ for(int i=0;i<100;i++){
 prin();
 }
 }
-````
+```
 
 ### c语言静态变量
 
@@ -387,39 +217,29 @@ prin();
 
 ## c/c++连接库文件
 
-
-
 库的分类：静态库和动态库
 
 连接：静态连接和动态连接
 
 linux：
 
-​	静态库：lib库名.a
+​    静态库：libXXX.a
 
-​	动态库：lib库名.lib
+​    动态库：libXXX.so
 
 window：
 
-​	静态库：lib库名.lib
+​    静态库：XXX.lib
 
-​	动态库：lib库名.dll
+​    动态库：XXX.dll
 
 使用：
 
-​	静态库：-static
+​    gcc     xx.c    -l库名     ；库路径放在环境变量
 
-​	gcc 	xx.c	-l库名 	；库路径放在环境变量
+​    gcc     xx.c     -L静态库路径    -l库名    ；库路径
 
-​	gcc	 xx.c 	-L静态库路径	-l库名	；库路径
-
-​	动态库：-share
-
-​	gcc	xx.c	-l库名
-
-​	gcc	xx.c	-L	路径	-l库名
-
-
+​    
 
 动态库和静态库的特点
 静态库的特点：
@@ -434,7 +254,7 @@ window：
 
 ### 枚举类型
 
-````c++
+```cpp
 enum color{red,yellow,blue}
 color c;
 enum:定义枚举关键字
@@ -442,7 +262,7 @@ color枚举类型名
 red，blue枚举常量/元素
 c：枚举变量
 或者：ennum color {red,red ,blue},c,b;
-````
+```
 
 注意：
 
@@ -450,8 +270,6 @@ c：枚举变量
 2. 每个枚举元素都有一个确定的整数值，可以在枚举类型定义的时候显式地给出枚举元素的值，若缺省则默认0，1，2，...
 3. 可以将一个整数强制转换类型后赋给枚举变量
 4. 枚举常量可以直接赋给整型变量
-
-
 
 ### 运算
 
@@ -467,7 +285,7 @@ c++:类型名(表达式)
 
 ### goto
 
-````c++
+```c++
 #include"iostream.h"
 void main(){
     int i;
@@ -479,9 +297,7 @@ void main(){
     goto L1;
     cout<<sum;
 }
-````
-
-
+```
 
 ### 输入输出
 
@@ -510,41 +326,41 @@ cin>>hex>>j;指定输入为十六进制
 #### 占位
 
 1. setw()
-
+   
    需要头文件iomanip.h
-
-   ````c++
+   
+   ```c++
    #include<iomanip>
    cout<<setw(6)<<i<<setw(10) //左右空格6和10位
-   ````
+   ```
 
 2. width（）
-
+   
    位于iostream
-
-   ````c++
+   
+   ```c++
    #include"iostream"
    cout.width(10);
-   ````
+   ```
 
 3. cout.fill()
 
 填充自定义字符,配合width使用
 
-````c++
+```c++
 #include"iostream"
 cout.width(10);
 cout.fill('#');
-````
+```
 
 #### 精度控制
 
 cout.pricision();
 
-````c++
+```c++
 cout.precision(7);
 cout<<1234.4558<<endl;
-````
+```
 
 输出：1234.456
 
@@ -561,8 +377,6 @@ cout.flush()
 #### 科学计数法
 
    cout.setf(ios::scientific,ios::floatfield);
-
-
 
 #### get(),put()
 
@@ -594,7 +408,7 @@ fstream：输入输出
 
 #### 文件的打开和关闭
 
-````c++
+```cpp
 //文件的输入输出
 #include <iostream>
 #include <fstream>
@@ -622,9 +436,7 @@ int main()
     cout << aa[1] << endl;
    cout << cc[0] << endl;
 }
-````
-
-
+```
 
 ### 期末
 
@@ -650,8 +462,6 @@ Virtual继承和不继承：
 
 特别的：如果子类和父类有同名但不同型，则不能调用父类的同名函数，不能继承或重写的同时还重载
 
- 
-
 总结：
 
  对于父类函数（virtual、非virtual），如果子类没有同名函数，则正常继承
@@ -667,17 +477,11 @@ New用来开辟新的地址空间，返回一个地址，需要用delete释放�
 
 用new创建的对象，delete后才能调用析构函数
 
- 
-
 New可以开启所有类型空间，返回地址，形式：类型  *指针名=new 类型；
-
- 
 
 对于对象指针：eg: class *p;
 
 如果这样，p只有类型，没有指向，delete时，也能调用类class的析构函数，但是只能释放一次，如果时class *p=new class（）；那么，可以多次delete，多次析构
-
- 
 
 Const
 
@@ -696,8 +500,6 @@ int const * const p:同上
 int (* p )[3];指向数组的指针
 
 int （*p） (形参 ):指向函数返回值为整型的函数指针
-
- 
 
 三种继承
 
@@ -742,10 +544,3 @@ int （*p） (形参 ):指向函数返回值为整型的函数指针
 ​           析构函数
 
 ​           成员运算符重载函数
-
-
-
-
-
-
-

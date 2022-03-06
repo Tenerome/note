@@ -18,21 +18,21 @@ jdb:java调试工具
 
 ---jar
 
-​	--META-INF	
+​    --META-INF    
 
-​			--MANIFEST.MF	//配置文件，说明程序入口类main class等
+​            --MANIFEST.MF    //配置文件，说明程序入口类main class等
 
-​	--xx.class		//假设xx.class为主类
+​    --xx.class        //假设xx.class为主类
 
-​	--xx1.class
+​    --xx1.class
 
-​	--xx2.clss
+​    --xx2.clss
 
 -MANIFEST.MF-
 
 Manifest-Version: 1.0
 Created-By: 1.8.0_301 (Oracle Corporation)
-Main-Class: xx	//程序入口主类
+Main-Class: xx    //程序入口主类
 
 Class-Path:xxx.jar   导入的jar包
 
@@ -121,20 +121,3 @@ String(byte[] byte,int offset,int length,String charsetName):charsetName指定�
 String (char[] value):将字符数组连接成字符串
 
 String (char[] value,int offset,int count):截取
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

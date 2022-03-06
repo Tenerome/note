@@ -1,5 +1,3 @@
-
-
 ### 环境变量
 
 #### 环境变量配置路径
@@ -57,12 +55,6 @@ jstl snippets:jsp intellisense
 language support for java by red hat
 
 masm
-
-
-
-
-
-
 
 默认输出在  输出 中，不能输入，需要设置code runner   run  in  terminal，在终端运行
 
@@ -160,21 +152,17 @@ vscode 默认utf-8，最好再打开自动检测
 
 3.在tomcat上运行的web工程
 
-​		需要的文件结构
+​        需要的文件结构
 
-​		webapp
+​        webapp
 
-​		--WEB-INF      必须的配置文件
+​        --WEB-INF      必须的配置文件
 
-​		---classes       编译好的class
+​        ---classes       编译好的class
 
 ​      --html和jsp
 
 5.直接run on tomcat
-
-
-
-
 
 ### cmd管理员
 
@@ -232,8 +220,6 @@ gcc filename   -lwsock32  需要外链wsock32
 
 code runner可以在文件夹中设置不同的run，相当于不同的调试任务
 
-
-
 ### assmbly
 
 编译asm
@@ -246,12 +232,14 @@ link
 
 debug xx.exe 全称！！
 
-
-
-| Debug-R | 查看、改变CPU寄存器的内容                |
-| ------- | ---------------------------------------- |
-| Debug-D | 查看内存中的内容                         |
-| Debug-E | 改写内存中的内容                         |
-| Debug-U | 将内存中的机器指令翻译成汇编指令         |
-| Debug-T | 执行一条机器指令                         |
+| Debug-R | 查看、改变CPU寄存器的内容       |
+| ------- | -------------------- |
+| Debug-D | 查看内存中的内容             |
+| Debug-E | 改写内存中的内容             |
+| Debug-U | 将内存中的机器指令翻译成汇编指令     |
+| Debug-T | 执行一条机器指令             |
 | Debug-A | 以汇编指令的格式在内存中写入一条机器指令 |
+
+### vscode 更新后重启恢复旧版
+
+vscode的自动更新自动安装在C:\Users\admin\AppData\Local\，如果之前的vscode不在默认位置，就会更新出两个版本，如果还用了固定在开始屏幕或者任务栏，则一直在打开旧版本，把旧版本删除了，或者在安装时就选择默认位置就不会发生了
