@@ -256,8 +256,6 @@ StringBuffer sb=new StringBuffer(int x);
 
 x,分配的容量大小，单位：字节
 
-
-
 ```java
 sb.ensureCapacity(100);
 ```
@@ -330,8 +328,6 @@ char StringBuffer.charAt(int x);
 
 返回第x个字符(从0开始)
 
-
-
 5.设置单个字符
 
 ```java
@@ -372,8 +368,6 @@ String StringBuffer.reverse();
 如果操作的两边都是对象句柄，则比较两个句柄是否指向同一个对象。
 
 如果两边是基本类型，比较的就是值。
-
-
 
 equals比较的是两个对象的内容，如果不重载equals，自动调用object的equals，和==一样。
 
@@ -442,5 +436,7 @@ String s=Integer.toString(i);//两种方法
 ```
 
 ### 句柄
+
+
 
 ### 类和对象
