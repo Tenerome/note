@@ -90,6 +90,21 @@ int a；
 
 a的值直接输出，可能是随机数，也可能是固定的数
 
+### gcc C语言编译
+
+       （1）.预处理，生成预编译文件（.文件）：
+
+        Gcc –E hello.c –o hello.i  
+       （2）.编译，生成汇编代码（.s文件）：
+
+        Gcc –S hello.i –o hello.s  
+       （3）.汇编，生成目标文件（.o文件）：  
+        Gcc –c hello.s –o hello.o  
+       （4）.链接，生成可执行文件：  
+        Gcc hello.o –o hello
+
+10 目标文件反汇编objdump -S obj
+
 ## 从c到c++
 
 ### gcc和g++的区别
