@@ -243,3 +243,53 @@ debug xx.exe 全称！！
 ### vscode 更新后重启恢复旧版
 
 vscode的自动更新自动安装在C:\Users\admin\AppData\Local\，如果之前的vscode不在默认位置，就会更新出两个版本，如果还用了固定在开始屏幕或者任务栏，则一直在打开旧版本，把旧版本删除了，或者在安装时就选择默认位置就不会发生了
+
+### linux 配置jdk环境
+
+#### 1.安装openjdk
+
+apt search  openjdk 搜索openjdk
+
+apt install openjdk-8-jdk
+
+安装后测试java   和java  -version都可以，但是不能javac
+
+还需要安装 openjdk-8-jdk-headless
+
+#### 2.在Oracle下载jdk，并配置环境变量
+
+![](2022-05-24-19-36-23-image.png)
+
+配置环境变量
+
+vi  /etc/profile
+
+在末尾加上
+
+```bash
+JAVA_HOME=/usr/jdk8
+
+JRE_HOME=$JAVA_HOME/jre
+
+CLASS_PATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+
+PATH=$PATH:$JAVA_HOME/bin
+
+export JAVA_HOME JRE_HOME CLASS_PATH PATH
+```
+
+启用环境变量
+
+```bash
+source /etc/profile
+```
+
+但是未永久生效
+
+设置开启自动source
+
+vi  \~/.bashrc
+
+![](2022-05-24-22-08-17-image.png)
+
+![](2022-05-24-22-09-44-image.png)
