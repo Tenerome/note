@@ -333,3 +333,27 @@ reaver -i wlan0mon -b (bssid) -vv -c (CH)
 
 #kali 自带解包
 ircrack-ng -w pass.txt freedom-*.ivs
+
+### linux代理pn
+1.桌面系统
+直接在网络-代理中手动添加socks5或https，添加ip及端口
+2.终端
+安装proxychains
+sudo apt install proxychains
+修改配置文件
+sudo vim /etc/proxychains.conf
+注释掉原有的socks4
+#socks4        127.0.0.1 9050
+添加socks5
+socks5         ip        port
+
+### ubuntu 添加人脸识别
+软件howdy，proxychains
+配置好proxychains之后
+sudo proxychains apt install howdy -f(自动安装依赖)
+安装过程需要识别摄像头
+没有识别到就n
+直到识别到人脸摄像头，就是一闪一闪的
+
+添加人脸
+sudo howdy add
