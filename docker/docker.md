@@ -14,11 +14,11 @@
 
 #### 查看所有的容器
 
-![](../2022-05-23-16-07-07-image.png)
+![](docker/pics/2022-07-06-11-28-58-image.png)
 
 #### 运行容器
 
-![](../2022-05-23-16-08-25-image.png)
+![](docker/pics/2022-07-06-11-29-14-image.png)
 
 -t:终端
 
@@ -36,13 +36,13 @@ docker  pull  ubuntu:18.04
 
 docker  search  httpd
 
-![](../2022-05-23-16-23-05-image.png)
+![](docker/pics/2022-07-06-11-29-20-image.png)
 
 #### **删除镜像**
 
 docker  rmi  ubuntu:tt
 
-![](../2022-05-23-17-21-33-image.png)
+![](docker/pics/2022-07-06-11-29-34-image.png)
 
 #### 创建镜像
 
@@ -64,17 +64,17 @@ apt update;  apt upgrade;  apt install  vim
 
 3.docker   ps 查看当前运行的容器
 
-![](../2022-05-23-16-48-59-image.png)
+![](docker/pics/2022-07-06-11-29-43-image.png)
 
 记录其Container ID：  7e9f3d9d2616
 
 4.提交更改，创建新镜像(用name也行)
 
-![](../2022-05-23-16-51-44-image.png)
+![](docker/pics/2022-07-06-11-29-51-image.png)
 
 5.查看新的images
 
-![](../2022-05-23-16-52-26-image.png)
+![](docker/pics/2022-07-06-11-29-59-image.png)
 
 #### **构建镜像**
 
@@ -104,7 +104,7 @@ RUN：  在镜像内执行的命令
 
 使用docker build来创建镜像
 
-![](../2022-05-23-17-18-08-image.png)
+![](docker/pics/2022-07-06-11-30-09-image.png)
 
 -t: 设置镜像名字和版本  
 
@@ -112,7 +112,7 @@ C:\DATA\  :Dockerfile所在路径
 
 检验：
 
-![](../2022-05-23-17-20-22-image.png)
+![](docker/pics/2022-07-06-11-30-19-image.png)
 
 创建成功
 
@@ -120,7 +120,7 @@ C:\DATA\  :Dockerfile所在路径
 
 docker  tag  d2e4e1f51132  ubuntu:default
 
-![](../2022-05-23-18-18-53-image.png)
+![](docker/pics/2022-07-06-11-30-27-image.png)
 
 可以看到image id为d2e4e1f51132的Ubuntu有两个tag
 
@@ -148,7 +148,7 @@ docker  start  容器id或name
 
 docker   run  -itd  --name ubuntu-test  ubuntu  /bin/bash
 
-![](../2022-05-23-18-31-14-image.png)
+![](docker/pics/2022-07-06-11-30-35-image.png)
 
 --name:为容器命名
 
@@ -174,7 +174,7 @@ docker  restart  <容器的ID或name>
 
 2.docker  exec  -it   <容器ID或name>    /bin/bash
 
-    ![](../2022-05-23-18-39-41-image.png)
+    ![](docker/pics/2022-07-06-11-30-41-image.png)
 
 用这个进入容器后exit不会停止容器
 
@@ -188,9 +188,9 @@ docker  export <容器ID或name>  >  filename
 
 \>重定向到文件
 
-![](../2022-05-23-19-00-53-image.png)
+![](docker/pics/2022-07-06-11-30-48-image.png)
 
-![](../2022-05-23-19-01-03-image.png)
+![](docker/pics/2022-07-06-11-30-56-image.png)
 
 ##### 导入容器
 
@@ -198,7 +198,7 @@ docker  import  URL或PATH
 
 导入之后不是容器，而是镜像
 
-![](../2022-05-23-20-11-42-image.png)
+![](docker/pics/2022-07-06-11-31-03-image.png)
 
 #### 删除容器
 
@@ -216,11 +216,11 @@ docker  run  -d -P  training/webapp  python  app.py
 
 docker ps
 
-![](../2022-05-23-20-34-30-image.png)
+![](docker/pics/2022-07-06-11-31-12-image.png)
 
-![](../2022-05-23-20-34-41-image.png)
+![](docker/pics/2022-07-06-11-31-19-image.png)
 
-![](../2022-05-23-21-07-16-image.png)
+![](docker/pics/2022-07-06-11-31-25-image.png)
 
 0.0.0.0:49153 :主机端口号
 
@@ -232,9 +232,9 @@ docker ps
 
 docker run -d -p 127.0.0.1:5001\:5000 training/webapp python app.py
 
-![](../2022-05-23-21-06-50-image.png)
+![](docker/pics/2022-07-06-11-31-34-image.png)
 
-![](../2022-05-23-21-07-00-image.png)
+![](docker/pics/2022-07-06-11-31-41-image.png)
 
 默认绑定tcp端口，使用/udp绑定udp端口
 
@@ -242,7 +242,7 @@ docker run -d -p 127.0.0.1:5001\:5000 training/webapp python app.py
 
 docker  port  容器ID或name  容器内部端口号
 
-![](../2022-05-23-21-11-53-image.png)
+![](docker/pics/2022-07-06-11-31-48-image.png)
 
 #### docker网络
 
@@ -252,7 +252,7 @@ docker  network  create  -d  bridge  test-net
 
 -d：指定网络类型，有bridge，overlay
 
-![](../2022-05-23-21-16-33-image.png)
+![](docker/pics/2022-07-06-11-31-56-image.png)
 
 查看网络：
 
@@ -260,25 +260,25 @@ docker  network  ls
 
 创建容器并将容器加入网络
 
-![](../2022-05-23-21-22-29-image.png)
+![](docker/pics/2022-07-06-11-32-04-image.png)
 
-![](../2022-05-23-21-24-53-image.png)
+![](docker/pics/2022-07-06-11-32-12-image.png)
 
 创建了s0和s1
 
-![](../2022-05-23-21-25-35-image.png)
+![](docker/pics/2022-07-06-11-32-20-image.png)
 
 测试其连通性：
 
 在s0 ping s1
 
-![](../2022-05-23-21-26-42-image.png)
+![](docker/pics/2022-07-06-11-32-29-image.png)
 
 成功ping通
 
 在s1 ping  s0
 
-![](../2022-05-23-21-27-45-image.png)
+![](docker/pics/2022-07-06-11-32-37-image.png)
 
 同样成功ping通
 
