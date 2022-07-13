@@ -359,7 +359,6 @@ sudo apt install proxychains
 
 vi  /etc/proxychains.conf
 
-
 shift+g到尾行
 
 将sock4注释掉
@@ -367,8 +366,6 @@ shift+g到尾行
 添加socks5
 
 socks5    192.168.93.165  2013(代理的ip和端口号)
-
-
 
 安装howdy
 
@@ -389,3 +386,25 @@ sudo proxychains apt install howdy
 
 添加人脸
 sudo howdy add
+
+#### 解决锁屏界面无法使用
+
+sudo howdy config
+
+设置成这样
+
+```bash
+# Print that face detection is being attempted
+detection_notice = false
+
+# Do not print anything when a face verification succeeds
+no_confirmation = true
+```
+
+然后在 /etc/pam.d/中相关锁屏界面的文件，cinnamon-screensaver,lightdm*,还有login
+
+中添加
+
+```bash
+auth            sufficient      pam_python.so /lib/security/howdy/pam.py
+```
