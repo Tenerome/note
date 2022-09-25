@@ -221,13 +221,7 @@ git checkout -b temp
 
 # 
 
-
-
-
-
 ##### 合并分支
-
-
 
 ##### 删除分支
 
@@ -242,5 +236,3 @@ git branch -d copy1
 #### Head
 
 head相当于一个指针，指向当前激活的分支
-
-
