@@ -1,16 +1,16 @@
 Java，可以直接在path中配置，但是想tomcat不能识别，只能配置java_home或者jre_home
 
-##### jdk和tomcat
+##### ~~jdk和tomcat~~
 
 tomcat 8 不能用太高的jdk,用jdk 8就行
 
-##### jdk改完没有作用
+##### ~~jdk改完没有作用~~
 
 c-program file和 x86-common files-oracle
 
 删掉，这里默认配置jdk路径
 
-### 插件
+### ~~插件~~
 
 #### vscode
 
@@ -42,7 +42,7 @@ masm
 
 默认输出在  输出 中，不能输入，需要设置code runner   run  in  terminal，在终端运行
 
-### 刷系统
+### ~~刷系统~~
 
 security boot：disable
 
@@ -50,7 +50,7 @@ cms：enable
 
 F10开启boot
 
-### git
+### ~~git~~
 
 git config --global user.name ''
 
@@ -58,7 +58,7 @@ git config --global user.email ''
 
 git clone
 
-### 挂完vpn浏览器断网
+### ~~挂完vpn浏览器断网~~
 
 1.关代理
 
@@ -76,19 +76,19 @@ git clone
 
 2.如果是google扩展，添加的解压后的扩展，不能直接删，要在edge善2
 
-### 万能
+### ~~万能~~
 
 网页前加wn.run/
 
-### 解决某些软件删除不了或者不能初始化
+### ~~解决某些软件删除不了或者不能初始化~~
 
 右键-属性-详细信息-删除属性及个人信息
 
-### vscode分级文件夹
+### ~~vscode分级文件夹~~
 
 首选项-设置-功能-资源管理器-compack folders
 
-### vscode -java package机制，找不到主类
+### ~~vscode -java package机制，找不到主类~~
 
 code runner 设置，coderunner.excutormap
 
@@ -96,7 +96,7 @@ java
 
 "java": "cd $dir && javac -d. $fileName && java app.$fileNameWithoutExt",
 
-### dosbox
+### ~~dosbox~~
 
 下载，安装
 
@@ -104,7 +104,7 @@ java
 
 环境变量：set PATH =$PATH$;xxx
 
-### vscode中文乱码
+### ~~vscode中文乱码~~
 
 vscode 默认utf-8，最好再打开自动检测
 
@@ -120,7 +120,7 @@ vscode 默认utf-8，最好再打开自动检测
 
 新建字符串autorun，值设为chcp 65001
 
-### vscode 开发javaee
+### ~~vscode 开发javaee~~
 
 1.jdk，jdk-utf-8
 
@@ -140,15 +140,15 @@ vscode 默认utf-8，最好再打开自动检测
 
 5.直接run on tomcat
 
-### cmd管理员
+### ~~cmd管理员~~
 
 直接搜索栏输入CMD后（不要立即回车进入），按住CTRL+SHIFT+ENTER键可直接进入管理员模式命令行。
 
-### servlet包找不到，webservlet注解无效
+### ~~servlet包找不到，webservlet注解无效~~
 
 把tomcat-lib-annotations-api.jar和servlet-api.jar复制到jdk-jre-lib-ext中就行了
 
-### vscode自定义snippet
+### ~~vscode自定义snippet~~
 
 新建-用户片段
 
@@ -174,7 +174,7 @@ json文件格式
 
 $2光标移动到这
 
-### vscode中package问题
+### ~~vscode中package问题~~
 
 runcode 改为javac -d ./  
 
@@ -184,7 +184,7 @@ runcode 改为javac -d ./
 
 如果有包，运行时用java   包名.class
 
-### c scoket编译问题
+### ~~c scoket编译问题~~
 
 需要外链lib
 
@@ -192,11 +192,11 @@ gcc   -L/库文件夹-l库文件名
 
 gcc filename   -lwsock32  需要外链wsock32 
 
-### vscode runner  code
+### ~~vscode runner  code~~
 
 code runner可以在文件夹中设置不同的run，相当于不同的调试任务
 
-### assmbly
+### ~~assmbly~~
 
 编译asm
 
@@ -216,7 +216,7 @@ debug xx.exe 全称！！
 | Debug-T | 执行一条机器指令             |
 | Debug-A | 以汇编指令的格式在内存中写入一条机器指令 |
 
-### vscode 更新后重启恢复旧版
+### ~~vscode 更新后重启恢复旧版~~
 
 vscode的自动更新自动安装在C:\Users\admin\AppData\Local\，如果之前的vscode不在默认位置，就会更新出两个版本，如果还用了固定在开始屏幕或者任务栏，则一直在打开旧版本，把旧版本删除了，或者在安装时就选择默认位置就不会发生了
 
@@ -276,7 +276,7 @@ vi  \~/.bashrc
 
 如果是wsl改不回来了，可以在win中创建一个只读文件传进去。
 
-### apt
+### ~~apt~~
 
 apt命令安装的tomcat，它的很多组件是分开存储的。  
 
@@ -398,31 +398,3 @@ no_confirmation = true
 ```bash
 auth            sufficient      pam_python.so /lib/security/howdy/pam.py
 ```
-
-
-
-<a href="#preface">前言</a>
-
-[第一章](#first)
-
-
-
-dwadwa
-
-
-
-dawdw
-
-
-
-adfgvxc
-
-
-
-zxcz
-
-<a id="preface">前言</a>
-
-
-
-<a id="first">第一章</a>
