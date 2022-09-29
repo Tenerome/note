@@ -342,7 +342,7 @@ socks5         ip        port
 
 软件howdy，proxychains
 
-先安装proxychains
+先安装proxychains,即使在windows上开全局代理,也必须在ubuntu中安装proxychains,转发端口,sockets5,才能访问
 
 sudo apt install proxychains
 配置proxychains
@@ -398,3 +398,31 @@ no_confirmation = true
 ```bash
 auth            sufficient      pam_python.so /lib/security/howdy/pam.py
 ```
+
+
+
+<a href="#preface">前言</a>
+
+[第一章](#first)
+
+
+
+dwadwa
+
+
+
+dawdw
+
+
+
+adfgvxc
+
+
+
+zxcz
+
+<a id="preface">前言</a>
+
+
+
+<a id="first">第一章</a>
