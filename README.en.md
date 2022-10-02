@@ -8,18 +8,4 @@ my notes
 
 Tenerome
 
-
-
-
-
-
-
 testceshi   
-
-
-
-
-
-
-
-
