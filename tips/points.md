@@ -398,3 +398,65 @@ no_confirmation = true
 ```bash
 auth            sufficient      pam_python.so /lib/security/howdy/pam.py
 ```
+
+### vscode Run and debug(调试与运行)
+
+以调试C代码为例
+
+tasks.json
+
+```json
+{//tasks用于调试前,执行自定义的任务,生成可调式的文件
+    "tasks": [
+        {   
+            "type": "cppbuild",                                 //调试类型
+            "label": "spawn debugging c file",                  //标签
+            "command": "C:/environment/mingw64/bin/gcc.exe",    //指令
+            "args": [                                           //指令的参数 gcc -g filename.c -o filename.exe
+                "-g",
+                "${fileBasename}",                              //test.c
+                "-o",
+                "${fileBasenameNoExtension}.exe"                //test.exe
+            ],
+            "options": {
+                "cwd": "${fileDirname}"                         //指定目录为被调试文件所在的目录
+            },
+            "group": {                                          //任务标记,build:用于生成调试文件.  test:用于测试
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "用gcc -g ...指令生成可调式的文件"
+        }
+    ],
+    "version": "2.0.0"
+}
+```
+
+launch.json
+
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Debug",                                            //名称,随便起
+            "type": "cppdbg",                                           //调试类型
+            "request": "launch",                                        //请求类型
+            "program": "${fileDirname}/${fileBasenameNoExtension}.exe", //调试文件路径
+            "args": [],                                                 //传参数,相当于gdb的set args
+            "stopAtEntry": false,                                       //是否在开始处停止,相当于gdb命令的start
+            "cwd": "${fileDirname}",                                    //目标工作目录
+            "externalConsole": false,                                   //是否在系统终端调试
+            "MIMode": "gdb",                                            //调试器
+            "miDebuggerPath": "C:/environment/mingw64/bin/gdb.exe",     //调试器的路径
+            "preLaunchTask": "spawn debugging c file"                                   //任务名称,必须和tasks的label相同
+        }
+
+    ]
+}
+```
+
+### vscode C/C++ 扩展 compiler path问题
+
+下载visual studio 的build tools,安装MSVC,  和win10 SDK
