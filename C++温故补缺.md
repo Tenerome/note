@@ -350,7 +350,33 @@ auto print=print_class();
 
 虽然看上去功能无差别,但最好还是用cerr输出错误信息,clog输出日志,不要全都用cout 
 
-### cout格式化输出
+#### cout格式化输出
+
+| 成员函数              | 说明                                                |
+| ----------------- | ------------------------------------------------- |
+| flags(fmtfl)      | 当前格式状态全部替换为 fmtfl。注意，fmtfl 可以表示一种格式，也可以表示多种格式。    |
+| precision(n)      | 设置输出浮点数的精度为 n。                                    |
+| width(w)          | 指定输出宽度为 w 个字符。                                    |
+| fill(c)           | 在指定输出宽度的情况下，输出的宽度不足时用字符 c 填充（默认情况是用空格填充）。         |
+| setf(fmtfl, mask) | 在当前格式的基础上，追加 fmtfl 格式，并删除 mask 格式。其中，mask 参数可以省略。 |
+| unsetf(mask)      | 在当前格式的基础上，删除 mask 格式。                             |
+
+| 标 志             | 作 用                                |
+| --------------- | ---------------------------------- |
+| ios::boolapha   | 把 true 和 false 输出为字符串              |
+| ios::left       | 输出数据在本域宽范围内向左对齐                    |
+| ios::right      | 输出数据在本域宽范围内向右对齐                    |
+| ios::internal   | 数值的符号位在域宽内左对齐，数值右对齐，中间由填充字符填充      |
+| ios::dec        | 设置整数的基数为 10                        |
+| ios::oct        | 设置整数的基数为 8                         |
+| ios::hex        | 设置整数的基数为 16                        |
+| ios::showbase   | 强制输出整数的基数（八进制数以 0 开头，十六进制数以 0x 打头） |
+| ios::showpoint  | 强制输出浮点数的小点和尾数 0                    |
+| ios::uppercase  | 在以科学记数法格式 E 和以十六进制输出字母时以大写表示       |
+| ios::showpos    | 对正数显示“+”号                          |
+| ios::scientific | 浮点数以科学记数法格式输出                      |
+| ios::fixed      | 浮点数以定点格式（小数形式）输出                   |
+| ios::unitbuf    | 每次输出之后刷新所有的流                       |
 
 ### C++引用和指针
 
@@ -811,9 +837,62 @@ int main(){
 
 #### 运算符重载
 
-运算符重载依赖关键字`operator`,
+运算符重载一般作用于类的对象运算，因为它需要相同返回类型和参数，运算符重载依赖关键字`operator`,格式：
 
-**运算符重载不止可以在类中实现,还可以在结构体中实现**
+`返回类类型 operator<符号>(const 类&)`
+
+如`Box operator+(const Box&)`
+
+例：
+
+```cpp
+#include<iostream>
+using namespace std;
+
+class Box{
+    public:
+        int a;
+        Box operator+(const Box& b){
+            Box b1;
+            b1.a=this->a+b.a;
+        }
+};
+```
+
+因为要用到this指针，所以运算符重载类中的，它的原理就是：
+
+`obj3=obj1+obj2`,obj1是发生重载的对象本身，用this调用其成员；obj2是传入const obj&对象，用形参名来调用成员，obj3就是返回值。
+
+##### 可重载的运算符和不可重载的运算符
+
+- 可重载：
+
+| 双目算术运算符 | + (加)，-(减)，*(乘)，/(除)，% (取模)                      |
+| ------- | ------------------------------------------------ |
+| 关系运算符   | ==(等于)，!= (不等于)，< (小于)，> (大于)，<=(小于等于)，>=(大于等于)  |
+| 逻辑运算符   | \|(逻辑或)，&&(逻辑与)，!(逻辑非)                           |
+| 单目运算符   | + (正)，-(负)，*(指针)，&(取地址)                          |
+| 自增自减运算符 | ++(自增)，--(自减)                                    |
+| 位运算符    | \| (按位或)，& (按位与)，~(按位取反)，^(按位异或),，<< (左移)，>>(右移) |
+| 赋值运算符   | =, +=, -=, *=, /= , % = , &=, \|=, ^=, <<=, >>=  |
+| 空间申请与释放 | new, delete, new[ ] , delete[]                   |
+| 其他运算符   | ()(函数调用)，->(成员访问)，,(逗号)，[]\(下标\)                 |
+
+- 不可重载     
+
+    `.`：成员访问运算符
+
+    `.*`,` ->*`：成员指针访问运算符
+
+    `::`：域运算符
+
+    `sizeof`：长度运算符
+
+    `?:`：条件运算符
+
+    `#`： 预处理符号
+
+##### 运算符重载不止可以在类中实现,还可以在结构体中实现
 
 ```cpp
 #include<iostream>
@@ -841,3 +920,128 @@ int main(){
 ![](https://img2022.cnblogs.com/blog/2629720/202211/2629720-20221121153905219-1136039009.png)
 
 #### 函数重载
+
+函数重载体现在相同的函数名和不同形参列表上，和java等都类似
+
+如：
+
+```cpp
+#include<iostream>
+using namespace std;
+
+void print(int a){
+    cout.precision(0);
+    cout<<a<<endl;
+}
+
+void print(float a){
+    cout.precision(2);
+    cout<<a<<endl;
+}
+
+void print(double a){
+    cout.precision(4);
+    cout<<a<<endl;
+}
+
+int main(){
+    float pi=3.1415926;
+    print(pi);
+}
+```
+
+### C++多态
+
+当类之间存在层次结构，并且类之间是通过继承关联时，就会用到多态
+
+如：shape类被派生为两个类：Rectangle和Triangle
+
+```cpp
+#include<iostream>
+using namespace std;
+
+class Shape{
+    protected:
+        int width,height;
+    public:
+        Shape(int a=0,int b=0){width=a;height=b;}
+        int area(){
+            cout<<"parent class area";
+            return 0;
+        }
+};
+
+class Rectangle:public Shape{
+    public:
+        Rectangle(int a=0,int b=0):Shape(a,b){}
+        int area(){
+            return width*height;
+        }
+};
+class Triangle:public Shape{
+    public:
+        Triangle(int a=0,int b=0):Shape(a,b){}
+        int area(){
+            return width*height/2;
+        }
+};
+int main(){
+    Rectangle rec(10,7);
+    Triangle tri(10,5);
+    cout<<tri.area()<<endl;
+    cout<<rec.area()<<endl;
+}
+```
+
+![](https://img2023.cnblogs.com/blog/2629720/202211/2629720-20221129144624976-528361051.png)
+
+#### 虚函数
+
+虚函数是在基类中用关键字`virtual`声明的函数，在派生类中重新定义基类中定义过的虚函数时，会告诉编译器不要静态链接到该函数
+
+如：上面的例子
+
+```cpp
+int main(){
+    Shape *shape;
+    Rectangle rec(10,7);
+    Triangle tri(10,5);
+    shape=&rec;
+    cout<<shape->area()<<endl;
+    shape=&tri;
+    cout<<shape->area()<<endl;
+}
+```
+
+输出
+
+![](https://img2023.cnblogs.com/blog/2629720/202211/2629720-20221129144625415-1890809029.png)
+
+并不是想象中的两个面积，这是因为调用shape->area()是基类中的area()函数，这就是`静态多态`、`静态链接`，函数调用在程序执行前就准备好了，也被称为`早绑定`，要解决这个问题，可以使用`virtual`修饰基类中的area()函数。
+
+```cpp
+class Shape{
+    protected:
+        int width,height;
+    public:
+        Shape(int a=0,int b=0){width=a;height=b;}
+        virtual int area(){
+            cout<<"parent class area";
+            return 0;
+        }
+};
+```
+
+输出
+
+![](https://img2023.cnblogs.com/blog/2629720/202211/2629720-20221129144625742-263409324.png)
+
+这样程序中任意点可以根据所调用的对象类型来选择调用的函数，这种操作被称为动态链接
+
+#### 纯虚函数
+
+如果定义虚函数=0，如`virtual int area()=0;`，
+
+那么这个函数就是一个纯虚函数，纯虚函数所在的类，只能被继承，不能用于实例化，类似java中的抽象类
+
+如：
