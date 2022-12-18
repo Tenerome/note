@@ -952,6 +952,8 @@ int main(){
 
 ### C++多态
 
+#### 继承和派生
+
 当类之间存在层次结构，并且类之间是通过继承关联时，就会用到多态
 
 如：shape类被派生为两个类：Rectangle和Triangle
@@ -1045,3 +1047,999 @@ class Shape{
 那么这个函数就是一个纯虚函数，纯虚函数所在的类，只能被继承，不能用于实例化，类似java中的抽象类
 
 如：
+
+```cpp
+#include<iostream>
+using namespace std;
+
+class Shape{
+    protected:
+        int width,height;
+    public:
+        Shape(int a=0,int b=0){width=a;height=b;}
+        virtual int area()=0;
+};
+
+class Rectangle:public Shape{
+    public:
+        Rectangle(int a=0,int b=0):Shape(a,b){}
+        int area(){
+            return width*height;
+        }
+};
+
+int main(){
+    Rectangle rec(10,2);
+    cout<<rec.area();
+}
+```
+
+### 数据封装
+
+封装性是面对对象编程语言的一大特点，在C++中也可以把类成员私有、保护，然后通过公有的setter()和getter()获取、设置数据成员，以起到保护作用
+
+如：
+
+```cpp
+#include<iostream>
+using namespace std;
+
+class Shape{
+    private:
+        int width,height;
+    public:
+        Shape(){width=0;height=0;}
+        int getWidth(){return width;}
+        void setWidth(int w){width=w;}
+        int getHeight(){return height;}
+        void setHeight(int h){height=h;}
+};
+
+int main(){
+    Shape shape;
+    shape.setWidth(3);
+    shape.setHeight(5);
+    cout<<"area:"<<shape.getWidth()*shape.getHeight()<<endl;
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-11-29-16-24-24-image.png)
+
+### C++文件和流
+
+C++文件的读写流用的是fstream库，它定义了三个新的数据类型：
+
+| 数据类型     | 描述                                                                       |
+| -------- | ------------------------------------------------------------------------ |
+| ofstream | 该数据类型表示输出文件流，用于创建文件并向文件写入信息。                                             |
+| ifstream | 该数据类型表示输入文件流，用于从文件读取信息。                                                  |
+| fstream  | 该数据类型通常表示文件流，且同时具有 ofstream 和 ifstream 两种功能，这意味着它可以创建文件，向文件写入信息，从文件读取信息。 |
+
+#### 打开文件
+
+从文件读取信息或向文件写入信息之前，必须先打开文件，用到open()函数，open()函数是fstream,ifstream,ofsteam对象的一个成员
+
+open()函数的第一参数是要打开的文件的名称，第二个参数是模式:`open(path,mode);`
+
+| 模式标志        | 描述                      |
+| ----------- | ----------------------- |
+| ios::app    | 追加模式。所有写入都追加到文件末尾。      |
+| ios::ate    | 文件打开后定位到文件末尾。           |
+| ios::in     | 打开文件用于读取。               |
+| ios::out    | 打开文件用于写入。               |
+| ios::trunc  | 如果该文件已经存在，则先删除该文件，再重新创建 |
+| ios::binary | 二进制方式                   |
+
+且可以把多个模式结合起来用，如：
+
+```cpp
+ofstream outfile;
+outfile.open("data.dat",ios::out|ios::trunc);
+```
+
+就是以写入模式打开文件，且如果文件已经存在，就把之前的内容截断
+
+#### 关闭文件
+
+虽然程序终止时，会自动关闭刷新所有的流，释放所有分配的内存，并关闭所有打开的文件，但最好还是在程序终止前用close()函数关闭文件
+
+```cpp
+void close();
+```
+
+#### 读写文件流
+
+fstream也有类似cout,cin的流操作，`ofstream<<str;`一个ofstream对象可以和`<<`连接使用，将后面的内容写入ofstream对象打开的文件
+
+如：
+
+```cpp
+#include<iostream>
+#include<fstream>
+using namespace std;
+int main(){
+    ofstream outfile("data.dat");
+    int a=4321;
+    outfile<<a<<"test";
+
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-11-30-12-35-27-image.png)
+
+同样，ifstream对象可以和`>>`连用，将ifstream对象打开的文件的内容读到变量中。如：
+
+```cpp
+#include<iostream>
+#include<fstream>
+using namespace std;
+int main(){
+    ifstream infile("data.dat");
+    string str;
+    infile>>str;
+    cout<<str;
+
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-11-30-12-38-02-image.png)
+
+#### 逐行和逐个字符读文件
+
+![](/home/tenerome/.config/marktext/images/2022-11-30-13-08-53-image.png)
+
+##### 逐个字符
+
+```cpp
+#include<iostream>
+#include<fstream>
+using namespace std;
+int main(){
+    fstream file;
+    char c;
+    file.open("data.dat",ios::in);
+    while(!file.eof()){
+        file>>c;
+        cout<<c;
+    }
+    file.close();
+    cout<<endl;
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-11-30-13-09-35-image.png)
+
+file.eof()是文件对象的成员，当读到文档的结尾时，会返回一个EOF标志，eof()函数当遇到EOF标志时，返回boolean的true
+
+##### 逐行读取
+
+需要用到getline()函数：`getline(char* str,int size,char delim);`
+
+str:用来接收读文件流的字符串变量
+
+size:字符数
+
+delim:分隔符，一般为`'\n'`
+
+```cpp
+#include<iostream>
+#include<fstream>
+using namespace std;
+int main(){
+    fstream file;
+    char buffer[256];
+    file.open("data.dat",ios::in);
+    while(!file.eof()){
+        file.getline(buffer,256,'\n');
+        cout<<buffer<<endl;
+    }
+    file.close();
+    cout<<endl;
+}
+```
+
+#### 流指针
+
+ifstream 对象有一个get pointer指针，指向下一个被读取的元素
+
+ofstream有一个put pointer指针，指向写入下一个元素的位置
+
+fstream，同时继承了get和put指针
+
+- 获取流指针的位置
+
+tellg()和tellp(),返回一个整数，表示当前的get和put指针的位置
+
+- 设置流指针的位置
+
+seekg()和seekp(),他们有两种函数原型：
+
+`seekg(pos_type position);`只有一个参数时，定义到第position的位置
+
+`seekg(off_type offset,seekdir direction)`有两个参数时，用偏移量定位，direction是定位的初位置，offset是前后偏移量
+
+| 参数       | 含义              |
+| -------- | --------------- |
+| ios::beg | 从流开始位置计算的位移     |
+| ios::cur | 从流指针当前位置开始计算的位移 |
+| ios::end | 从流末尾处开始计算的位移    |
+
+如：
+
+```cpp
+file.seekg(-10,ios::cur)
+```
+
+就是从当前位置向前移动10个字节
+
+例子：
+
+```cpp
+#include<iostream>
+#include<fstream>
+using namespace std;
+int main(){
+    fstream file;
+    file.open("data.dat",ios::in|ios::out);
+    char buffer[100];
+    file<<"Hello,tom";
+
+    file>>buffer;
+    file.close();
+    cout<<buffer;
+}
+```
+
+对文件先写后读，输出：
+
+![](/home/tenerome/.config/marktext/images/2022-11-30-14-57-07-image.png)
+
+因为写完指针移动到了末尾，然后读就什么都读不出来，需要移动get指针
+
+```cpp
+#include<iostream>
+#include<fstream>
+using namespace std;
+int main(){
+    fstream file;
+    file.open("data.dat",ios::in|ios::out);
+    char buffer[100];
+    file<<"Hello,tom";
+    file.seekg(0);
+    file>>buffer;
+    file.close();
+    cout<<buffer;
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-11-30-14-58-35-image.png)
+
+#### 二进制读写
+
+二进制数据的读写用的是write和read函数：
+
+`write/read(char* buffer,streamsize size);`
+
+如：
+
+```cpp
+#include<iostream>
+#include<fstream>
+using namespace std;
+int main(){
+    fstream file;
+    file.open("data.dat",ios::in|ios::out|ios::binary);
+    char buffer[100];
+    file.write("Hello,eva",9);
+    file.seekg(0);
+    file.read(buffer,9);
+    file.close();
+    cout<<buffer;
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-11-30-15-00-06-image.png)
+
+### 异常处理
+
+参考：[cnblogs](https://www.cnblogs.com/nbk-zyc/p/12449331.html)
+
+#### 异常和错误（bug）
+
+异常：是程序开发过程中必须考虑的一些特殊情况，是程序运行时可以预料的执行分支。异常是不可以避免的，如0除问题，数组越界问题，文件不存在问题等。但是可以处理，通过抛出，捕获异常，**可以使程序继续运行**。
+
+错误：是程序的缺陷，是程序运行时无法预料的运行方式，一旦发生错误，**程序将会被终止**。
+
+如：
+
+遇到错误时：
+
+```cpp
+#include<iostream>
+using namespace std;
+
+int main(){
+    const int a=10;
+    a++;
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-11-30-15-42-34-image.png)
+
+程序会终止运行
+
+而遇到异常时，可以抛出，捕获，程序不会因为异常而终止运行，而是在抛出异常后继续运行后续代码
+
+```cpp
+#include<iostream>
+using namespace std;
+
+void divide(int x,int y){
+    if(y==0){
+        throw -1;
+    }
+    cout<<x/y;
+}
+
+int main(){
+    try{
+        divide(20,0);
+    }catch(int){
+        cout<<"零除异常"<<endl;
+    }
+    cout<<"over"<<endl;
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-11-30-15-50-14-image.png)
+
+  如上，在遇到异常时，throw抛出一个表达式，可以是任意类型的，但是catch时要和throw抛出的表达式类型相同，如这里抛出-1，catch就要捕获int，如果抛出了"exception"这样的字符串，catch就要捕获const char*类型。
+
+捕获完就可以处理异常，处理异常的过程是直接跳转到catch语句后，throw后面的语句便不再执行。
+
+如：
+
+```cpp
+#include<iostream>
+using namespace std;
+
+
+int main(){
+    try{
+        cout<<"hello";
+        throw -1;
+        cout<<"Tom";
+    }catch(int a){
+        cout<<"异常:"<<a<<endl;
+    }
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-12-02-15-34-17-image.png)
+
+throw 出异常后，其后面的输出不再执行
+
+且如上，catch捕获的不止throw表达式类型，同时可以赋给一个变量，然后在catch块中使用
+
+#### 异常的基本原则
+
+- 通常，异常的抛出和捕获并不是在同一个函数中进行的，假设在函数B()中遇到了异常，并不会直接在B中捕获处理异常，而是抛出给它的调用者假设为A(),
+
+```cpp
+B(){
+    ...
+    throw -1;
+}
+A(){
+    try{
+    B();
+}catch(int){
+    ...
+}
+}
+```
+
+如果A中没有捕获异常，程序将会自动继续向上抛出给A的调用者，一直到main()函数，如果都没有捕获异常，程序将终止执行
+
+- 一个try语句后可以跟多个catch语句，捕获多种类型的异常，但至少有一个catch块
+
+- 使用catch(...)可以捕获任意类型的异常
+
+- 异常只能被一个catch捕获，一旦被捕获，其他的catch就没有捕获机会了
+
+#### try..catch嵌套（在catch中重新抛出异常）
+
+try...catch可以嵌套使用，也就是内层的catch捕获到异常后什么都不做，直接抛出，由上一层的catch来处理异常,如：
+
+```cpp
+#include<iostream>
+using namespace std;
+
+int main(){
+    try{
+        try{
+            cout<<"内层抛出异常"<<endl;
+            throw -1;
+        }catch(int){
+            throw 'a';
+        }
+    }catch(char){
+        cout<<"外层处理异常"<<endl;
+    }
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-12-03-16-19-16-image.png)
+
+为什么要在catch语句中重新抛出异常？
+
+![](https://img2020.cnblogs.com/i-beta/1438401/202003/1438401-20200310175802933-356066380.png)
+
+第三方库的异常解释可读性很差，甚至需要查手册才能知道什么异常，比如直接抛出一些数值，像windows系统中常见的error:-1,error:#0x0081之类的，根本不可能通过这些信息知晓异常的详情
+
+所以在引入第三方库后，如果遇到这些异常，就捕获了重新抛出，然后加入一些自定义的解释，来增加可读性
+
+模拟：
+
+```cpp
+#include<iostream>
+using namespace std;
+
+void lib(){
+    throw -1;
+}
+
+void myfunc(){
+    try{
+        lib();
+    }catch(int a){
+        if(a==-1){
+            throw "参数错误";
+        }
+    }
+}
+int main(){
+    try{
+        myfunc();
+    }catch(const char* str){
+        cout<<"发生异常:"<<str<<endl;
+    }
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-12-04-12-49-10-image.png)
+
+#### 自定义异常类
+
+ 异常类是可以自定义的，用于整个大工程，将通用的异常集合起来管理。且异常类通常也会有派生类，一般也类似一个Exception父类，派生多种不同的异常类。在赋值兼容性原则中，一般将匹配子类异常的catch放在上部，匹配父类异常的catch放在下部。
+
+例子：
+
+```cpp
+#include<iostream>
+using namespace std;
+
+class Exception{
+    private:
+        int Eid;
+        string Edes;
+    public:
+        Exception(int id,string des){
+            Eid=id;
+            Edes=des;
+        };
+
+        int getEid(){return Eid;};
+        string getEdes(){return Edes;};
+};
+void lib(){
+    throw -1;
+}
+
+void myfunc(){
+    try{
+        lib();
+    }catch(int a){
+        if(a==-1){
+            throw Exception(-1,"参数错误");
+        }
+    }
+}
+int main(){
+    try{
+        myfunc();
+    }catch(Exception e){
+        cout<<"发生异常:"<<e.getEid()<<e.getEdes()<<endl;
+    }
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-12-04-12-59-44-image.png)
+
+#### C++标准库中的异常类
+
+![](https://img2020.cnblogs.com/i-beta/1438401/202003/1438401-20200311010826333-201158844.png)
+
+#### C++动态内存
+
+同C，C++中也是有堆和栈的概念。栈是函数内部声明的所有变量都所占用空间，堆是程序中未使用的内存，在程序运行期间可用于动态分配。
+
+同样也有alloc()分配内存，新增了new和delete运算符来分配释放内存
+
+#### new和delete
+
+new关键字用来分配一种类型的内存：`new type;`,并返回一个该类型的指针，`new type->type*`。如：
+
+```cpp
+int *p;
+p=new int;
+```
+
+用完之后可以用delete关键字释放内存
+
+```cpp
+delete p;
+```
+
+除此之外，new还可以在给对象分配内存空间的同时创建对象。多用来创建对象数组，如：
+
+```cpp
+#include<iostream>
+using namespace std;
+
+class student{
+    public:
+        student(){
+            cout<<"创建对象"<<endl;
+        }
+        ~student(){
+            cout<<"销毁对象"<<endl;
+        }
+};
+
+int main(){
+    student* stpt=new student[3];
+    delete [] stpt;
+
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-12-04-14-37-58-image.png)
+
+### C++模板
+
+模板是泛型的基础，泛型编程就是一种独立于任何特殊类型的方式编写代码。模板就是创建**泛型类或泛型函数**的蓝图。STL库中的几个数据结构(vector,list,map等)以及算法都使用了泛型。
+
+#### 函数模板
+
+格式：`template <typename type> return-type function-name(parameter list){//函数体}`
+
+模板用到的关键字是template,其后跟的就是后续可以指定的模板类型，return-type是返回值类型，后面是函数名和参数列表，和普通函数别无二致。
+
+就是多了template关键字和一个可以后续修改的模板类型
+
+例子：
+
+```cpp
+#include<iostream>
+using namespace std;
+
+template <typename T> T Max(T x,T y){
+    return x<y?y:x;
+}
+int main(){
+    int a=12,b=15;
+    float a1=1.2,b1=1.5;
+    cout<<Max(a,b)<<endl;
+    cout<<Max(a1,b1)<<endl;
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-12-04-20-55-31-image.png)
+
+如上，Max函数可以作用于不同的类型的参数，它会根据参数的类型自动转换模板类型T的类型，T只是一个名字，用来标志模板的类型。
+
+函数的参数以及返回值也是可以为T类型。
+
+T的类型在传参时会自动确定，但也可以显式指定类型:`Max<int>()`
+
+#### 类模板
+
+格式：`template <class type> class class-name{};`
+
+类似于函数模板，`<class type>`就是用来定义类模板的，后续可以指定为不同的类型
+
+例子：
+
+```cpp
+#include<iostream>
+#include<string.h>
+using namespace std;
+
+class people{
+    protected:
+        string name;
+    public:
+        people(){name="";}
+        people(string name){this->name=name;}
+};
+class student:public people{
+    protected:
+        int sno;
+    public:
+        student(){sno=-1;}
+        student(int no,string name):people(name){sno=no;}
+        int getno(){return sno;}
+        string getname(){return name;}
+};
+class teacher:public student{
+    public:
+        teacher(int no,string name):student(no,name){}
+        int getno(){return sno;}
+        string getname(){return name;}
+};
+
+
+template <class T> class Item{
+    private:
+        T* tp;
+    public:
+        Item(T* tp){
+            this->tp=tp;
+        }
+        ~Item(){
+            delete tp;
+        }
+        void getInformation(){
+            if(typeid(T)==typeid(student)){
+                cout<<"学号:"<<tp->getno()<<" ";
+                cout<<"学生姓名:"<<tp->getname()<<endl;
+            }else if(typeid(T)==typeid(teacher)){
+                cout<<"工号:"<<tp->getno()<<" ";
+                cout<<"教师姓名:"<<tp->getname()<<endl;
+            }
+        }
+
+}; 
+int main(){
+    Item i(new student(2014114,"张璇"));
+    i.getInformation();
+    Item<teacher> i1(new teacher(2001401,"李朱强"));
+    i1.getInformation();
+
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-12-04-22-34-59-image.png)
+
+类模板中用到的类T的不同情况要有相同的字段，因为模板的解释是发生在编译阶段的，如果用了不同的字段，则会因为类和字段不对应找不到成员，导致编译不通过。
+
+如上的例子中，teacher和student有相同的成员函数getno()和getname()，所以在模板类中调用两个函数可以自动识别，如果两个函数定义成不同的，如：
+
+```cpp
+class student:public people{
+    protected:
+        int sno;
+    public:
+        student(){sno=-1;}
+        student(int no,string name):people(name){sno=no;}
+        int getSno(){return sno;}
+        string getSname(){return name;}
+};
+class teacher:public student{
+    public:
+        teacher(int no,string name):student(no,name){}
+        int getTno(){return sno;}
+        string getTname(){return name;}
+};
+template <class T> class Item{
+    private:
+        T* tp;
+    public:
+        Item(T* tp){
+            this->tp=tp;
+        }
+        ~Item(){
+            delete tp;
+        }
+        void getInformation(){
+            if(typeid(T)==typeid(student)){
+                cout<<"学号:"<<tp->getSno()<<" ";
+                cout<<"学生姓名:"<<tp->getSname()<<endl;
+            }else if(typeid(T)==typeid(teacher)){
+                cout<<"工号:"<<tp->getTno()<<" ";
+                cout<<"教师姓名:"<<tp->getTname()<<endl;
+            }
+        }
+
+};
+```
+
+![](/home/tenerome/.config/marktext/images/2022-12-04-22-41-05-image.png)
+
+那么在模板中，确定模板类型后，假设为student，就会因为student没有getTno()和getTname()字段而无法通过编译，因为模板T识别为student是发生在编译阶段的，一旦确定为student，模板类中所有的T都会被替换成student，所以就出现"student类无getTno()和getTname()成员"的错误。
+
+### 信号处理
+
+信号是由操作系统传给进程的中断，能够提前终止一个程序。在Unix,Linux,Mac OS 或Windows系统上，都可以通过Ctrl+C产生中断。
+
+下面是可以在程序中被捕获的信号，并且可以基于信号采取适当的动作，这些信号定义在C++头文件\<csignal\>中。
+
+| 信号      | 描述                     |
+| ------- | ---------------------- |
+| SIGABRT | 程序的异常终止，如调用 **abort**。 |
+| SIGFPE  | 错误的算术运算，比如除以零或导致溢出的操作。 |
+| SIGILL  | 检测非法指令。                |
+| SIGINT  | 程序终止(interrupt)信号。     |
+| SIGSEGV | 非法访问内存。                |
+| SIGTERM | 发送到程序的终止请求。            |
+
+#### signal函数
+
+signal函数用来捕获突发事件，signal语法：
+
+```cpp
+signal (registered signal,signal handler)
+```
+
+函数的第一个参数是一个整数，代表了信号的编号，第二个参数一个指向信号处理函数的指针，也就是要把一个函数传进去当参数。例子：
+
+```cpp
+#include<iostream>
+#include<csignal>
+#include<unistd.h>
+
+using namespace std;
+
+void signalHandler(int signum){
+    cout<<"Interrupt signal:"<<signum<<endl;
+    exit(signum);
+}
+int main(){
+    signal(SIGINT,signalHandler);
+    int x;
+    cout<<"Press Ctrl C"<<endl;
+    cin>>x;
+}
+```
+
+signal()的第一个参数是定义好的可以捕获的信号，如上SIGINT就是用来捕获**交互注意信号**的。可以在VS中查看定义:
+
+![](/home/tenerome/.config/marktext/images/2022-12-05-17-09-42-image.png)
+
+该头文件给出了这几个信号的宏定义以及解释，可以看到它们是一些整数
+
+signal()的第二个参数是捕获到信号后用来执行动作的函数，其参数就是前面该信号的整型值。
+
+运行：
+
+![](/home/tenerome/.config/marktext/images/2022-12-05-17-12-22-image.png)
+
+就捕获到了这个信号，并输出提示语句
+
+#### raise()函数
+
+raise()函数用来<mark>主动</mark>生成信号，参数为一个整数
+
+```cpp
+int raise(signal sig);
+```
+
+例子：
+
+```cpp
+#include<iostream>
+#include<csignal>
+#include<unistd.h>
+
+using namespace std;
+
+void signalHandler(int signum){
+    cout<<"Interrupt signal:"<<signum<<endl;
+    exit(signum);
+}
+int main(){
+    signal(SIGINT,signalHandler);
+    int i=-1;
+    if(i<0){
+        raise(SIGINT);
+    }
+
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-12-05-22-44-35-image.png)
+
+### 多线程
+
+参考:[CSDN](https://blog.csdn.net/QLeelq/article/details/115747717),[知乎](https://zhuanlan.zhihu.com/p/194198073?utm_source=com.google.android.gm)
+
+传统C++(C++11之前)中并没有引入线程的概念，如果想要在C++中实现多线程，需要借助操作系统平台提供的API，如Linux的\<pthread.h\>,或windows下的\<windows.h\>
+
+从C++11开始提供了语言层面的多线程,包含在头文件\<thread\>中，它解决了跨平台的问题，并提供了管理线程，保护共享数据，线程间同步操作，原子操作等类。
+
+![](https://img-blog.csdnimg.cn/20210428113430200.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1FMZWVscQ==,size_16,color_FFFFFF,t_70#pic_center)
+
+**何时使用并发？**
+
+程序使用并发的原因有两种。一是为了关注点分离；程序中需要执行不同的功能，就使用不同的线程来执行。如:在bash中执行test.cpp
+
+```cpp
+#include<iostream>
+using namespace std;
+
+int main(){
+    int a;
+    cin>>a;
+}
+```
+
+查看当前的进程，只有bash和执行瞬间启动的ps
+
+![](/home/tenerome/.config/marktext/images/2022-12-06-21-07-37-image.png)
+
+启动test，用cin卡住进程
+
+![](/home/tenerome/.config/marktext/images/2022-12-09-13-47-08-image.png)
+
+然后Ctrl Z返回命令行模式，再查看进程
+
+![](/home/tenerome/.config/marktext/images/2022-12-09-14-04-39-image.png)
+
+二是为了提高性能，同时处理多个任务或者充分利用cpu资源，节省时间。
+
+#### 创建线程
+
+创建线程用到thread类，用它来创建对象，其必须的参数是一个函数
+
+```cpp
+#include<thread>
+void fun(){}
+thread th1(fun);
+```
+
+启用线程有两种方式，join和detach。join会阻塞父线程，等待子线程执行完，父线程才结束。而detach不会等待，一旦父线程执行完，未执行完的子线程被释放掉。
+
+例子：
+
+```cpp
+#include<iostream>
+#include<thread>
+#include<unistd.h>
+using namespace std;
+void func(){
+    for(int i=0;i<3;i++){
+        cout<<"func"<<endl;
+        sleep(1);
+    }
+}
+
+int main(){
+    thread th1(func);
+    th1.join();
+    cout<<"main"<<endl;
+    return 0;
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-12-10-20-53-50-image.png)
+
+join模式下，子现场把func()函数执行完，main线程才结束
+
+修改成detach模式：
+
+```cpp
+int main(){
+    thread th1(func);
+    th1.detach();
+    cout<<"main"<<endl;
+    return 0;
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-12-10-20-55-10-image.png)
+
+#### 多线程
+
+采用多线程和单线程执行两个函数对比
+
+```cpp
+#include<iostream>
+#include<thread>
+#include<unistd.h>
+#include<time.h>
+using namespace std;
+void func(){
+    for(int i=0;i<3;i++){
+        cout<<"func"<<" ";
+        sleep(1);
+    }
+}
+void func1(){
+    for(int i=0;i<3;i++){
+        cout<<"func1"<<" ";
+        sleep(1);
+    }
+}
+
+void Main(){
+    thread th(func);
+    thread th1(func1);
+    th.join();
+    th1.join();
+}
+
+void Main1(){
+    func();
+    func1();
+}
+int main(){
+    time_t start=0,end=0;
+    time(&start);
+    Main();
+    time(&end);
+    cout<<"single thread exectime:"<<difftime(end,start)<<endl;
+    time(&start);
+    Main1();
+    time(&end);
+    cout<<"multi threads exectime:"<<difftime(end,start)<<endl;
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2022-12-10-21-13-00-image.png)
+
+多线程比单线程执行时间少了一半
+
+#### 进程相关知识
+
+参考:[CSDN](https://blog.csdn.net/sermonlizhi/article/details/119234232)
+
+##### 几个概念
+
+- 并发：指单个cpu同时处理多个任务，因为cpu执行速度特别快，可以来回切换不同进程，每个进程都分成多个部分执行。
+
+并发进程之间分为独立关系和交互关系。独立关系的进程分别在自己的变量集合上运行，互不影响。
+
+但交互关系的并发进程在执行过程中需要共享或交换数据，因此会产生竞争和协作关系。
+
+- 竞争：多个进程读写某些共享数据时，最终执行的结果取决于<mark>运行的</mark>时序，而不是安排的顺序，这样的情况称为竞争条件。
+
+如两个进程A、B都要使用打印机，使用打印机需要三个步骤，先取到打印机的状态，如果状态是闲置，就放文件上去，最后打印。
+
+现先让A取得打印机的状态，A获取状态为“闲置”，但是此时A的CPU时间片用完，切换到B进程，也识别到打印机为闲置状态，B将要打印的文件b放在打印机上，但CPU时间片也用完了。
+
+接着切换到进程A，因为它已经获取了状态为闲置，所以A直接将a文件放上去，把b覆盖了。然后打印出文件a，而文件b打印不出来了。
+
+- 同步和异步：并发执行的进程中，如果相互之间没有竞争关系，就用异步方式执行，异步方式，也就是按随机时序执行，因为没有竞争，就没有冲突，先执行谁无所谓。
+  
+  - 而对于有竞争关系的进程，则需要用同步方式执行，规定一个cpu时间只有一个进城在执行，其他有竞争关系的进程都是被阻塞的状态。
+  
+  - 所以异步效率更高，因为不会有进程被阻塞，但为了程序的稳定，必须对竞争关系的进程做同步处理。
+
+- 共享数据：指并发进程中不同进程会使用的相同资源
+
+- 临界资源：指共享数据中一次只能被一个进程使用的资源，如打印机
+
+- 临界区：指访问临界资源的代码段
+
+通过程序员的设计，使有竞争条件的资源能够互斥地访问临界资源，也就是说不能有两个进程同时运行在临界区。
+
+- 临界区常用机制：
+  
+  - 互斥锁/量(mutex)：上锁(lock)和解锁(unlock)
+  
+  - 信号量(semaphore)：最大许可数、P(wait)、V(signal)
+
+**互斥量**：
+
+**信号量**：
+
+实际上互斥量和信号量的直观差别就是资源的数量，互斥锁是对一个资源的同步机制，而信号量是多个。
+
+本质上看，互斥量用于线程互斥，信号量用于线程同步。
+
+互斥：
+
+**同步**：
+
+### STL库
