@@ -1103,8 +1103,6 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-11-29-16-24-24-image.png)
-
 ### C++文件和流
 
 C++文件的读写流用的是fstream库，它定义了三个新的数据类型：
@@ -1165,7 +1163,7 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-11-30-12-35-27-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173720967-480769850.png)
 
 同样，ifstream对象可以和`>>`连用，将ifstream对象打开的文件的内容读到变量中。如：
 
@@ -1182,11 +1180,11 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-11-30-12-38-02-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173721510-398893291.png)
 
 #### 逐行和逐个字符读文件
 
-![](/home/tenerome/.config/marktext/images/2022-11-30-13-08-53-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173721928-586424248.png)
 
 ##### 逐个字符
 
@@ -1207,7 +1205,7 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-11-30-13-09-35-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173722333-1514350201.png)
 
 file.eof()是文件对象的成员，当读到文档的结尾时，会返回一个EOF标志，eof()函数当遇到EOF标志时，返回boolean的true
 
@@ -1237,6 +1235,8 @@ int main(){
     cout<<endl;
 }
 ```
+
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173722755-1612594297.png)
 
 #### 流指针
 
@@ -1292,7 +1292,7 @@ int main(){
 
 对文件先写后读，输出：
 
-![](/home/tenerome/.config/marktext/images/2022-11-30-14-57-07-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173723265-516358018.png)
 
 因为写完指针移动到了末尾，然后读就什么都读不出来，需要移动get指针
 
@@ -1312,7 +1312,7 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-11-30-14-58-35-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173723767-904411858.png)
 
 #### 二进制读写
 
@@ -1338,8 +1338,6 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-11-30-15-00-06-image.png)
-
 ### 异常处理
 
 参考：[cnblogs](https://www.cnblogs.com/nbk-zyc/p/12449331.html)
@@ -1364,7 +1362,7 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-11-30-15-42-34-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173724274-153741303.png)
 
 程序会终止运行
 
@@ -1391,7 +1389,7 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-11-30-15-50-14-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173724706-1784084505.png)
 
   如上，在遇到异常时，throw抛出一个表达式，可以是任意类型的，但是catch时要和throw抛出的表达式类型相同，如这里抛出-1，catch就要捕获int，如果抛出了"exception"这样的字符串，catch就要捕获const char*类型。
 
@@ -1415,7 +1413,7 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-12-02-15-34-17-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173725171-1793715005.png)
 
 throw 出异常后，其后面的输出不再执行
 
@@ -1469,7 +1467,7 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-12-03-16-19-16-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173725640-1543643672.png)
 
 为什么要在catch语句中重新抛出异常？
 
@@ -1507,7 +1505,7 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-12-04-12-49-10-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173726121-1914156858.png)
 
 #### 自定义异常类
 
@@ -1554,7 +1552,7 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-12-04-12-59-44-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173726639-425562360.png)
 
 #### C++标准库中的异常类
 
@@ -1604,7 +1602,7 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-12-04-14-37-58-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173727176-2070478766.png)
 
 ### C++模板
 
@@ -1635,7 +1633,7 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-12-04-20-55-31-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173727681-1587029110.png)
 
 如上，Max函数可以作用于不同的类型的参数，它会根据参数的类型自动转换模板类型T的类型，T只是一个名字，用来标志模板的类型。
 
@@ -1710,7 +1708,7 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-12-04-22-34-59-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173728172-172394403.png)
 
 类模板中用到的类T的不同情况要有相同的字段，因为模板的解释是发生在编译阶段的，如果用了不同的字段，则会因为类和字段不对应找不到成员，导致编译不通过。
 
@@ -1755,9 +1753,9 @@ template <class T> class Item{
 };
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-12-04-22-41-05-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173728679-1334697340.png)
 
-那么在模板中，确定模板类型后，假设为student，就会因为student没有getTno()和getTname()字段而无法通过编译，因为模板T识别为student是发生在编译阶段的，一旦确定为student，模板类中所有的T都会被替换成student，所以就出现"student类无getTno()和getTname()成员"的错误。
+那么在模板中，确定模板类型后，假设为student，就会因为student没有getTno()和getTname()字段而无法通过编译，因为模板T识别为student是发生在<mark>编译阶段</mark>的，一旦确定为student，模板类中所有的T都会被替换成student，所以就出现"student类无getTno()和getTname()成员"的错误。
 
 ### 信号处理
 
@@ -1805,7 +1803,7 @@ int main(){
 
 signal()的第一个参数是定义好的可以捕获的信号，如上SIGINT就是用来捕获**交互注意信号**的。可以在VS中查看定义:
 
-![](/home/tenerome/.config/marktext/images/2022-12-05-17-09-42-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173729278-583877295.png)
 
 该头文件给出了这几个信号的宏定义以及解释，可以看到它们是一些整数
 
@@ -1813,9 +1811,13 @@ signal()的第二个参数是捕获到信号后用来执行动作的函数，其
 
 运行：
 
-![](/home/tenerome/.config/marktext/images/2022-12-05-17-12-22-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173729812-1447921357.png)
 
 就捕获到了这个信号，并输出提示语句
+
+*ps:捕捉信号不能用run and debug,只能先编译，然后在终端运行*
+
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173730317-453818310.png)
 
 #### raise()函数
 
@@ -1848,7 +1850,7 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-12-05-22-44-35-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173730833-861537538.png)
 
 ### 多线程
 
@@ -1862,31 +1864,7 @@ int main(){
 
 **何时使用并发？**
 
-程序使用并发的原因有两种。一是为了关注点分离；程序中需要执行不同的功能，就使用不同的线程来执行。如:在bash中执行test.cpp
-
-```cpp
-#include<iostream>
-using namespace std;
-
-int main(){
-    int a;
-    cin>>a;
-}
-```
-
-查看当前的进程，只有bash和执行瞬间启动的ps
-
-![](/home/tenerome/.config/marktext/images/2022-12-06-21-07-37-image.png)
-
-启动test，用cin卡住进程
-
-![](/home/tenerome/.config/marktext/images/2022-12-09-13-47-08-image.png)
-
-然后Ctrl Z返回命令行模式，再查看进程
-
-![](/home/tenerome/.config/marktext/images/2022-12-09-14-04-39-image.png)
-
-二是为了提高性能，同时处理多个任务或者充分利用cpu资源，节省时间。
+程序使用并发的原因有两种。一是为了关注点分离；程序中需要执行不同的功能，就使用不同的线程来执行。二是为了提高性能，同时处理多个任务或者充分利用cpu资源，节省时间。
 
 #### 创建线程
 
@@ -1922,7 +1900,7 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-12-10-20-53-50-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173731342-2107583573.png)
 
 join模式下，子现场把func()函数执行完，main线程才结束
 
@@ -1937,7 +1915,7 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-12-10-20-55-10-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173731855-930391889.png)
 
 #### 多线程
 
@@ -1986,7 +1964,7 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2022-12-10-21-13-00-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173732372-1304746775.png)
 
 多线程比单线程执行时间少了一半
 
