@@ -1968,6 +1968,102 @@ int main(){
 
 多线程比单线程执行时间少了一半
 
-# 
+#### 线程相关的类
+
+##### this_thread
+
+this_thread是一个类，有4个功能函数：
+
+- get_id():获取当前线程id
+
+```cpp
+#include<iostream>
+#include<thread>
+using namespace std;
+
+void fun(){
+    cout<<"hello"<<endl;
+}
+int main(){
+    thread th1(fun);
+    cout<<th1.get_id()<<endl;
+    th1.join();
+}
+```
+
+- yield:放弃当前线程占用的时间片，使CPU重新调度以便其他线程执行。
+
+为了展示yield的效果，把程序绑定到一个cpu上处理。使用以下代码，把cpp程序绑定在指定的cpu上：
+
+```cpp
+int your_fixed_cpu_kernl=3;
+cpu_set_t cpuset;
+CPU_ZERO(&cpuset);
+CPU_SET(your_fixed_cpu_kernl,&cpuset);
+int rc =pthread_setaffinity_np(pthread_self(),sizeof(cpu_set_t), &cpuset);
+if (rc != 0) {
+  std::cerr << "Error calling pthread_setaffinity_np: " << rc << "\n";
+}
+```
+
+并且在编译时需要链接pthread库
+
+代码：
+
+```cpp
+#include<iostream>
+#include<thread>
+using namespace std;
+
+void fun(){
+    cout<<"th1"<<endl;
+    this_thread::yield();
+    cout<<"th1.1"<<endl;
+}
+
+void fun1(){
+    cout<<"th2"<<endl;
+    this_thread::yield();
+    cout<<"th2.1"<<endl;
+}
+int main(){
+    //绑定到0号CPU
+    int cpu_kernl=0;
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    CPU_SET(cpu_kernl,&cpuset);
+    int rc=pthread_setaffinity_np(pthread_self(),sizeof(cpu_set_t),&cpuset);
+    if(rc!=0){
+        cerr<<"Error calling pthread_setaffinity_np"<<rc<<endl;
+    }
+    //end
+    thread th1(fun);
+    thread th2(fun1);
+    th1.join();
+    th2.join();
+}
+```
+
+本来该并行执行的多线程任务，被指定到单个CPU上并发执行，当运行到yield暂停当前线程，执行其他线程，之后再返回继续执行。
+
+编译：
+
+```bash
+g++ test.cpp -o test -lpthread
+```
+
+结果：
+
+![](/home/tenerome/.config/marktext/images/2023-01-06-17-57-58-image.png)
+
+- sleep_for和sleep_until都是延时线程的函数
+
+sleep_for()要和std:\:chrono::seconds，minutes,hours连用，设定暂停的时间。
+
+sleep_until和chrono::system_clock连用，设定暂停到一个时间点。
+
+##### mutex
+
+
 
 ### STL库
