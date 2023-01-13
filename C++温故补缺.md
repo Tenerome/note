@@ -1,23 +1,3 @@
-### 关键字
-
-| <mark>asm</mark>          | else                  | new                           | this                  |
-| ------------------------- | --------------------- | ----------------------------- | --------------------- |
-| auto                      | enum                  | <mark>operator</mark>         | throw                 |
-| bool                      | <mark>explicit</mark> | private                       | true                  |
-| break                     | <mark>export</mark>   | protected                     | try                   |
-| case                      | extern                | public                        | typedef               |
-| catch                     | false                 | register                      | <mark>typeid</mark>   |
-| char                      | float                 | <mark>reinterpret_cast</mark> | <mark>typename</mark> |
-| class                     | for                   | return                        | union                 |
-| const                     | <mark>friend</mark>   | short                         | unsigned              |
-| <mark>const_cast</mark>   | goto                  | signed                        | using                 |
-| continue                  | if                    | sizeof                        | <mark>virtual</mark>  |
-| default                   | <mark>inline</mark>   | static                        | void                  |
-| delete                    | int                   | <mark>static_cast</mark>      | volatile              |
-| do                        | long                  | struct                        | <mark>wchar</mark>_t  |
-| double                    | <mark>mutable</mark>  | switch                        | while                 |
-| <mark>dynamic_cast</mark> | namespace             | <mark>template</mark>         |                       |
-
 ### 新增类型:布尔型和宽字符型
 
 #### 布尔型
@@ -2054,7 +2034,7 @@ g++ test.cpp -o test -lpthread
 
 结果：
 
-![](/home/tenerome/.config/marktext/images/2023-01-06-17-57-58-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202301/2629720-20230110143054365-1289103664.png)
 
 - sleep_for和sleep_until都是延时线程的函数
 
@@ -2064,6 +2044,178 @@ sleep_until和chrono::system_clock连用，设定暂停到一个时间点。
 
 ##### mutex
 
+mutex头文件为C++提供基础的互斥锁，mutex提供了4种互斥类型：
 
+###### mutex类
+
+mutex类是C++中最基本的互斥量。它提供了基本的上锁与解锁函数，lock(),unlock()以及try_lock()。
+
+###### lock与unlock：
+
+下面模拟之前说过的打印机的情况，就是多线程访问打印机，其中A线程在装入信息后被阻塞，打印机中的数据就会被线程B覆盖，当A恢复执行时，打印机中的数据仍然是B的数据。
+
+```cpp
+#include<iostream>
+#include<thread>
+using namespace std;
+
+string printstr;//模拟打印机装入信息
+void printer(string str){
+    printstr=str;
+    this_thread::sleep_for(chrono::seconds(1));//模拟线程被阻塞
+    for(int i=0;i<3;i++)
+        cout<<printstr<<endl;
+}
+
+int main(){
+    thread th1(printer,"Hello");
+    thread th2(printer,"world");
+    th1.join();
+    th2.join();
+}
+```
+
+![](https://img2023.cnblogs.com/blog/2629720/202301/2629720-20230110143054901-1290540751.png)
+
+可以看到打印机打印了6次th2线程的数据。想要获取正确的信息，就要用互斥锁，在打印前加锁，打印后解锁。
+
+```cpp
+#include<iostream>
+#include<thread>
+#include<mutex>
+using namespace std;
+
+mutex plocker;//打印机锁
+string printstr;//模拟打印机装入信息
+void printer(string str){
+    plocker.lock();//加锁
+    printstr=str;
+    this_thread::sleep_for(chrono::seconds(1));//模拟线程被阻塞
+    for(int i=0;i<3;i++)
+        cout<<printstr<<endl;
+    plocker.unlock();//解锁
+}
+
+int main(){
+    thread th1(printer,"Hello");
+    thread th2(printer,"world");
+    th1.join();
+    th2.join();
+}
+```
+
+![](https://img2023.cnblogs.com/blog/2629720/202301/2629720-20230110143055296-1211884803.png)
+
+就获得了正确的打印结果
+
+###### try_lock()
+
+- try_lock()是尝试上锁，有两种情况：
+1. 锁空闲，返回true，并加锁
+
+2. 锁已经其他线程获取，返回false
+
+模拟apt安装包时，另外一个线程等待的情况：
+
+```cpp
+#include<iostream>
+#include<thread>
+#include<mutex>
+#include<unistd.h>//sleep函数
+
+using namespace std;
+
+mutex aptlocker;//模拟apt锁
+
+void installer(string str){
+    while(!aptlocker.try_lock()){
+        cout<<"waitting for other installing thread"<<endl;
+    }
+    cout<<"installing package:"<<str<<endl;
+    sleep(0.5);
+    aptlocker.unlock();
+
+}
+
+int main(){
+    thread th1(installer,"vim");
+    thread th2(installer,"stacer");
+    th1.join();
+    th2.join();
+}
+```
+
+![](https://img2023.cnblogs.com/blog/2629720/202301/2629720-20230110143055690-1514237332.png)
+
+- 另外try_lock()还可以给多个互斥量加锁，格式：
+
+```cpp
+int try_lock(mutex1,mutex2,mutex3...);
+```
+
+如果所有互斥量都加锁成功，则返回-1。当首次遇到加锁失败的互斥量时，停止对后续互斥量的加锁，并解锁前面的互斥量，返回首个加锁失败的互斥量的序号。 （Attempts to lock all the objects passed as arguments using their [try_lock](https://cplusplus.com/mutex::try_lock) member functions (non-blocking).  
+
+The function calls the [try_lock](https://cplusplus.com/mutex::try_lock) member function for each argument (first a, then b, and eventually the others in cde, in the same order), until either all calls are successful, or as soon as one of the calls fails (either by returning `false` or throwing an exception).  
+
+If the function ends because a call fails, [unlock](https://cplusplus.com/mutex::unlock) is called on all objects for which the call to [try_lock](https://cplusplus.com/mutex::try_lock) was successful, and the function returns the argument order number of the object whose lock failed. No further calls are performed for the remaining objects in the argument list.）from [cplusplus](https://cplusplus.com/reference/mutex/try_lock/).
+
+如：
+
+```cpp
+mutex locker1,locer2,locker3;
+locker2.lock();
+try_lock(locker1,locker2,locker3);
+```
+
+- lock()和try_lock()的区别
+
+lock()是以阻塞的方式获取锁，而try_lock()是非阻塞式的。当线程请求被占用的锁时，用lock方式请求，会阻塞当前线程，无限时间，直到锁被释放。这就是<mark>死锁</mark>产生的直接原因,如果被占用的锁没有释放，那么请求的线程会永久地阻塞。
+
+try_lock()方式请求锁时，会有一个设定好的最大时间，当在这个时间内没有获取到锁，线程会放弃请求锁，直接继续执行后续的代码。
+
+了解更多：[wait for single object函数](https://blog.csdn.net/zx3517288/article/details/52743011).
+
+- 所以有时候try_lock()并不能同步，如果是严格的同步程序，最好用lock();
+
+如：之前打印机的模拟例子，使用互斥锁得到了正确的结果，如果是try_lock():
+
+```cpp
+#include<iostream>
+#include<thread>
+#include<mutex>
+using namespace std;
+
+mutex plocker;//打印机锁
+string printstr;//模拟打印机装入信息
+void printer(string str){
+    plocker.try_lock();//加锁
+    printstr=str;
+    this_thread::sleep_for(chrono::seconds(1));//模拟线程被阻塞
+    for(int i=0;i<3;i++)
+        cout<<printstr<<endl;
+    plocker.unlock();//解锁
+}
+
+int main(){
+    thread th1(printer,"Hello");
+    thread th2(printer,"world");
+    th1.join();
+    th2.join();
+}
+```
+
+![](https://img2023.cnblogs.com/blog/2629720/202301/2629720-20230113212233394-1765595.png)
+
+### 几个关键字
+
+#### explicit
+
+#### export
+
+#### typeid
+
+#### typename
+
+### 四种cast
 
 ### STL库
