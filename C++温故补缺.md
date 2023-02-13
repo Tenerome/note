@@ -2389,6 +2389,24 @@ int main(){
 
 #### lock类
 
+##### 简单说明三个参数
+
+lock_guard和unique_lock的第二个参数，是一个常数，一个标记tag。
+
+| Type          | Effect(s)                                                    |
+| ------------- | ------------------------------------------------------------ |
+| defer_lock_t  | do not acquire ownership of the mutex                        |
+| try_to_lock_t | try to acquire ownership of the mutex without blocking       |
+| adopt_lock_t  | assume the calling thread already has ownership of the mutex |
+
+其中，lock_guard只能使用adopt_lock,而unique_lock三个都可以用。
+
+defer_lock是一个标记，用来阻止对象在构造时获取mutex的所有权，也就是在构造时先不加锁，后面可以手动用lock加锁
+
+> Passing [defer_lock](https://cplusplus.com/defer_lock) to [unique_lock](https://cplusplus.com/unique_lock)'s constructor, makes it not to lock the *mutex object* automatically on construction, initializing the object as not *[owning a lock](https://cplusplus.com/unique_lock::owns_lock)*.
+
+try_to_lock类似try_lock都是非阻塞式地尝试获取锁，而adopt则是假设调用的线程已经对互斥量上锁，实际mutex对象并没有上锁，只是thread获取了mutex对象的所有权。
+
 ##### lock_guard
 
 lock_guard是mutex的封装类，它提供了一种方便的RAII-style机制来获取一个mutex互斥量，到达持续加锁的目的。
@@ -2438,17 +2456,71 @@ int main(){
 
 lock_guard不能中途解锁，不能复制/移动，但是效率高。
 
+可以使用的参数:adopt_lock
+
+```cpp
+lock_guard<mutex> locker(l,adopt_lock);
+```
+
+但是不能后续手动lock
+
 ##### unique_lock
 
 参考：[cplusplus](https://cplusplus.com/reference/mutex/unique_lock/)
 
 unique_lock也是一个模板类，拥有lock_guard的所有功能，但比lock_guard更强大。相比lock_guard构造时自动加锁析、构时解锁，unique_lock提供了加锁和解锁的接口，可以根据需求加锁解锁。
 
-unique_lock的对象的初始化参数中，除basic lockable type外，可以添加一个defer_lock，延缓lock。
+比如，在使用defer_lock参数后，unique_lock对象还可以后续手动上锁。如：
 
-> defer_lock:Tag used to prevent a scoped lock from acquiring ownership of a mutex.
+```cpp
+#include<iostream>
+#include<thread>
+#include<mutex>
+using namespace std;
 
-defer_lock是一个标记，用来阻止对象在构造时获取mutex的所有权，也就是在构造时先不加锁，后面可以手动用lock加锁
+mutex l;//打印机锁
+string printstr;//模拟打印机装入信息
+void printer(string str){
+    unique_lock<mutex> locker(l,defer_lock);//用unique_lock改写
+    locker.lock();//手动上锁
+    printstr=str;
+    this_thread::sleep_for(chrono::seconds(1));//模拟线程被阻塞
+    for(int i=0;i<3;i++)
+        cout<<printstr<<endl;
+
+}
+
+int main(){
+    thread th1(printer,"Hello");
+    thread th2(printer,"world");
+    th1.join();
+    th2.join();
+}
+```
+
+![](https://img2023.cnblogs.com/blog/2629720/202302/2629720-20230213220916294-88427910.png)
+
+##### defer_lock和adopt_lock的区别
+
+defer_lock是暂时先不加锁，和未上锁的状态是一致的，而adopt_lock假设线程已经获取了锁，在mutex对象中，有个m_owns参数，也就是前面说的ownership，被谁获取了，这个值表示是否被调用的线程获取mutex对象的所有资源。但是并不是上锁的意思，上锁的参数是mutex对象的数据域的_lock值控制的，defer_lock和未上锁的状态一致，m_owns为false,data域的_lock值为0。当使用lock()手动上锁时，m_owns为true，data域的_lock值为1。
+
+而adopt_lock,会使m_owns为true,但是_lock却是0,也就是线程拥有了mutex对象，但是并没有上锁，后续如果上锁的话，会导致死锁，因为上锁首先要获取锁，而锁已经被拥有了，也就导致死锁了。
+
+实际操作：初始用defer_lock，后面手动上锁
+
+![](https://img2023.cnblogs.com/blog/2629720/202302/2629720-20230213220917118-1959553518.png)
+
+可以看到_m_owns为false，__lock为0。接着step over
+
+![](https://img2023.cnblogs.com/blog/2629720/202302/2629720-20230213220918019-576218349.png)
+
+而adopt_lock：
+
+![](https://img2023.cnblogs.com/blog/2629720/202302/2629720-20230213220918707-2098652302.png)
+
+_m_owns为true，所以说假设线程获取了资源，就是mutex的owns为true，但是__lock是0,也就是并没有上锁，如果此时继续调试，将会产生死锁：
+
+![](https://img2023.cnblogs.com/blog/2629720/202302/2629720-20230213220919662-1621846472.png)
 
 ### 几个关键字
 
