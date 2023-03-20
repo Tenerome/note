@@ -135,6 +135,8 @@ int main(){
 
 #### 几个关键字
 
+//todo
+
 ##### explicit
 
 ##### export
@@ -144,6 +146,63 @@ int main(){
 ##### typename
 
 #### 四种cast
+
+#### assert
+
+assert断言，是C++\<assert.h\>库的函数，用来找出程序的错误的。格式:`assert(exp);`
+
+assert的第一个参数是一个表达式，就是用来找错的表达式，如果为真则程序继续执行，若为假则引起abort中断信号，程序终止执行。
+
+如:
+
+```cpp
+#include<assert.h>
+#include<iostream>
+int main(){
+    int a=0;
+    assert(a);
+
+}
+```
+
+![](https://img2023.cnblogs.com/blog/2629720/202303/2629720-20230320223012216-1574175905.png)
+
+##### 为什么不用if
+
+assert是用来排除错误的，而if是用来找异常的，错误是可以通过修改去掉的，而异常是无法避免的。
+
+##### 为什么不直接cout
+
+因为在一些大项目中，可以不止一个输出，所以如果找到错误，后续的程序便不需要继续执行。如：
+
+```cpp
+#include<assert.h>
+#include<iostream>
+int main(){
+    int a=0;
+    int b=0;
+    int c=0;
+    //...
+    assert(a);
+
+    std::cout<<a<<" ";
+    std::cout<<b<<" ";
+    std::cout<<c<<" ";
+    //...
+}
+```
+
+##### 使用规则
+
+- 根据上一条，所以assert一般用于程序输出的开始
+
+- 每个assert只检查一个条件，不然找到错误不知道是哪个
+
+- 不能改变环境的表达式
+  
+  如:`assert(a++);`这样会改变环境的表达式要用，只能用`assert(a),assert(a<100)`这样对原环境无影响的表达式
+
+- 一般assert()语句下一行空着，用来标注断言语句
 
 ### 引用类型
 
@@ -2110,15 +2169,15 @@ void func1(){
 }
 
 void Main(){
+    func();
+    func1();
+}
+
+void Main1(){
     thread th(func);
     thread th1(func1);
     th.join();
     th1.join();
-}
-
-void Main1(){
-    func();
-    func1();
 }
 int main(){
     time_t start=0,end=0;
@@ -2133,7 +2192,7 @@ int main(){
 }
 ```
 
-![](https://img2023.cnblogs.com/blog/2629720/202212/2629720-20221220173732372-1304746775.png)
+![](https://img2023.cnblogs.com/blog/2629720/202303/2629720-20230320223012872-512799918.png)
 
 多线程比单线程执行时间少了一半
 
@@ -2849,7 +2908,7 @@ this就是内存值的指针，expected是第一个给定的值，desired是另�
 
 ##### memory_order和内存模型
 
-参考：[C++11 内存模型](https://www.cnblogs.com/haippy/p/3412858.html)。[知乎:C++ memory_order](https://zhuanlan.zhihu.com/p/515382936).
+参考：[C++11 内存模型](https://www.cnblogs.com/haippy/p/3412858.html)。[知乎:C++ memory_order](https://zhuanlan.zhihu.com/p/515382936).[详解c++ atomic原子编程中的Memory Order](https://www.jb51.net/article/214304.htm).
 
 C++11 中的原子类型的API大都需要提供一个std::memory_order(内存序，访存顺序)的枚举类型作为参数，如atomic_store, atomic_load, atomic_exchange, atomic_compare_exchange, atomic_flag, 以及还有test_and_set和clear等API都可以设置一个std::memory_order参数。在没有指定时，默认的参数是std::memory_order_seq_cst（顺序一致性）。
 
@@ -2886,18 +2945,238 @@ C++的内存模型一般可以分为静态内存模型和动态内存模型。�
 
 常见的存储一致性模型包括：顺序一致性模型、处理器一致性模型、弱一致性模型、释放一致性模型、急切更新一致性模型、懒惰更新释放一致性模型、域一致性模型以及单项一致性模型。
 
-因为C++中只有一下6种，所以只研究这几种访存次序。 
+因为C++中只有一下6种，所以只研究这几种访存次序。
 
-- memory_order_relaxed
+ 
 
-- memory_order_consume
+| memory order         | 作用                             |
+| -------------------- | ------------------------------ |
+| memory_order_relaxed | 无fencing 作用，cpu和编译器可以重排指令      |
+| memory_order_consume | 后面依赖此原子变量的访存指令勿重排至此条指令前        |
+| memory_order_acquire | 后面的访存指令勿重排至此指令前                |
+| memory_order_release | 前面的访存指令勿重排到此指令后                |
+| memory_order_acq_rel | acquire+release                |
+| memory_order_seq_cst | acq_rel+所有使用seq_cst的指令有严格的全序关系 |
 
-- memory_order_acquire
+多线程编程时，通过这些标志位，来读写原子变量，可以组合成4种同步模型：
 
-- memory_order_release
+###### Relaxed ordering
 
-- memory_order_acq_rel
+在这种模型下，std::atomic的load和store都要带上memory_order_relaxed参数，Relaxed ordering仅仅保证load和store是原子的，除此之外无任何跨线程同步。
 
-- memory_order_seq_cst
+###### Release_Acquire ordering
+
+这个模型下，store()使用memory_order_release,而load()使用memory_order_acquire。这个模型限制指令的重排：
+
+- 在store()之前的读写操作，不允许重排到store()的后面。一般对应写操作
+
+- 在load()之后的读写操作，不允许重排到load()前面，一般对应读操作
+
+<mark>也就是store总是排在load前面，保证不会读到修改前的数据。</mark>
+
+如一个打印机有两个模块，一个负责装载打印数据，一个用来打印。如果未装载新的数据，会直接打印上一次的信息：
+
+如果没有规定线程之间的执行顺序，则可能会读到上一此的信息：
+
+```cpp
+#include<iostream>
+#include<thread>
+#include<atomic>
+using namespace std;
+
+string printstr="old data";//上一此的信息
+void load(string str){//装载
+    printstr=str;
+}
+void print(){//打印
+    cout<<printstr<<endl;
+}
+int main(){
+    thread th1(load,"Hello");
+    thread th2(print);
+    th1.join();
+    th2.join();
+}
+```
+
+因为程序会被cpu优化，所以手动编译取消优化-O0
+
+`g++ test.cpp -O0 -o test;./test`
+
+每次的运行都是随机排序的，所以可能会出现old data
+
+![](https://img2023.cnblogs.com/blog/2629720/202303/2629720-20230320223013490-870198732.png)
+
+使用Release_acquire模型来规定线程间的执行顺序：
+
+```cpp
+#include<iostream>
+#include<thread>
+#include<atomic>
+using namespace std;
+
+atomic<bool> ready{false};
+string printstr="old data";//上一此的信息
+void load(string str){//装载
+    printstr=str;
+    ready.store(true,memory_order_release);
+}
+void print(){//打印
+    while(!ready.load(memory_order_acquire))
+        ;//循环等待
+    cout<<printstr<<endl;
+}
+int main(){
+    thread th1(load,"Hello");
+    thread th2(print);
+    th1.join();
+    th2.join();
+}
+```
+
+![](https://img2023.cnblogs.com/blog/2629720/202303/2629720-20230320223013983-214445830.png)就得到了准确的结果
+
+###### Release_Consume ordering
+
+这个模型下 store()使用memory_order_release,而load()使用memory_order_consume。
+
+- 在store前的所有读写，不允许被移动到store()后面
+
+- 在load之后所有依赖此原子变量的读写，不允许被移动到load前面。
+
+和上面Release-acquire模型的差别是load前可以出现不依赖该原子变量的读写
+
+#### future
+
+\<future\>头文件包括一下类和函数：
+
+- providers类：std::promise, std::package_task
+
+- futures类：std::future, std::shared_future
+
+- providers函数：std::async()
+
+- 其他类型： std::future_error, std::future_errc, std::future_status, std::launch
+
+##### std::promise
+
+promise对象可以保存某一类型T的值，该值可以被future对象读取（可能在另一个线程中），因此promise也提供了一种线程同步手段。在promise对象构造时可以和一个共享状态(通常是std::future)相关联，并可以在相关联的共享状态(std::future)上保存一个类型为T的值。
+
+格式:`std::promise<Class T> val;`
+
+val的值只能用promise的set_value()函数设置，且每个promise只能设置一次，promise对象没有获取这个值的接口，可以将promise对象和future对象关联，通过future对象访问共享值。`std::future<Class T> fval=val.get_future();`
+
+如:
+
+```cpp
+#include<iostream>
+#include<future>
+
+int main(){
+  std::promise<int> val;
+  val.set_value(10086);
+  std::future<int> fval=val.get_future();
+  std::cout<<fval.get();
+}
+```
+
+![](https://img2023.cnblogs.com/blog/2629720/202303/2629720-20230320223014777-2022677814.png)
+
+std::promise被禁用了拷贝构造函数，但允许使用构造函数。另外，std::promise的operator=是没有拷贝语义的，只有move语义。所以只能连接一个promise对象。
+
+![](https://img2023.cnblogs.com/blog/2629720/202303/2629720-20230320223015474-1395809582.png)
+
+可以使用move：
+
+```cpp
+#include<iostream>
+#include<future>
+
+int main(){
+  std::promise<int> val;
+  val.set_value(10086);
+  std::promise<int> val1=move(val);
+  std::future<int> fval=val1.get_future();
+  std::cout<<fval.get();
+}
+```
+
+但是一个promise对象只能set_value一次，如果对已经set_value过的promise对象再次set_value，虽然编译能通过，但会报std::future_error异常：
+
+```cpp
+#include<iostream>
+#include<future>
+
+int main(){
+  std::promise<int> val;
+  val.set_value(10086);
+  val.set_value(10087);
+}
+```
+
+![](https://img2023.cnblogs.com/blog/2629720/202303/2629720-20230320223016242-1628087802.png)
+
+这里还有set的机制，是用atomic变量的store,并使用了memory_order_release内存序。
+
+想要改变promise对象保存的值，可以调用移动构造函数，给promise对象一个空的promise:`val=std::promise<int>();`,接着就可以重新set_value
+
+```cpp
+#include<iostream>
+#include<future>
+
+int main(){
+  std::promise<int> val;
+  val.set_value(10086);
+  val=std::promise<int>();
+  val.set_value(10087);
+  std::future<int> fval=val.get_future();
+  std::cout<<fval.get();
+}
+```
+
+同时,一个promise对象也只能被一个future关联，不能改动。否则报future_errec:future_already_retrieved
+
+```cpp
+#include<iostream>
+#include<future>
+
+int main(){
+  std::promise<int> val;
+  val.set_value(328);
+  std::future<int> fval=val.get_future();
+  std::future<int> fval1=val.get_future();
+
+}
+```
+
+![](https://img2023.cnblogs.com/blog/2629720/202303/2629720-20230320223016802-1512910261.png)
+
+但是，future对象是可以修改绑定的promise的：
+
+```cpp
+#include<iostream>
+#include<future>
+
+int main(){
+  std::promise<int> val;
+  val.set_value(328);
+  std::promise<int> val1;
+  val1.set_value(329);
+  std::future<int> fval=val.get_future();
+  fval=val1.get_future();
+  std::cout<<fval.get();
+
+}
+```
+
+![](https://img2023.cnblogs.com/blog/2629720/202303/2629720-20230320223017491-1106992181.png)
+
+###### std::promise\:\:set_exception
+
+
+
+========sep===
+
+#### condition_variable
 
 ### STL库
