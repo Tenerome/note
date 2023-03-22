@@ -1057,7 +1057,7 @@ int main(){
 
 可以用作用域符`::`访问不同的同名变量
 
-### 重载运算符和重载函数
+### 运算符重载和函数重载
 
 重载是c++多态性的一大体现,重载运算符是给运算符添加新的定义,使之前不能运算的对象变得可运算,且一般和运算符的意义相似.
 
@@ -1299,35 +1299,6 @@ class Rectangle:public Shape{
 int main(){
     Rectangle rec(10,2);
     cout<<rec.area();
-}
-```
-
-### 数据封装
-
-封装性是面对对象编程语言的一大特点，在C++中也可以把类成员私有、保护，然后通过公有的setter()和getter()获取、设置数据成员，以起到保护作用
-
-如：
-
-```cpp
-#include<iostream>
-using namespace std;
-
-class Shape{
-    private:
-        int width,height;
-    public:
-        Shape(){width=0;height=0;}
-        int getWidth(){return width;}
-        void setWidth(int w){width=w;}
-        int getHeight(){return height;}
-        void setHeight(int h){height=h;}
-};
-
-int main(){
-    Shape shape;
-    shape.setWidth(3);
-    shape.setHeight(5);
-    cout<<"area:"<<shape.getWidth()*shape.getHeight()<<endl;
 }
 ```
 
@@ -3172,8 +3143,6 @@ int main(){
 ![](https://img2023.cnblogs.com/blog/2629720/202303/2629720-20230320223017491-1106992181.png)
 
 ###### std::promise\:\:set_exception
-
-
 
 ========sep===
 
