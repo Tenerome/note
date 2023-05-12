@@ -1,4 +1,4 @@
-### 新增杂项
+### 杂记
 
 #### 布尔型
 
@@ -133,19 +133,251 @@ int main(){
 
 最终a的值为1,j的值为3
 
-#### 几个关键字
+#### explicit
 
-//todo
+在 C++ 中，explicit 是一个关键字，用于修饰类的构造函数，其作用是禁止编译器将一个参数构造函数用于隐式类型转换。具体来说，当一个构造函数被 explicit 修饰时，只能通过显式调用来创建该类的对象，而不能通过隐式类型转换来创建对象。
 
-##### explicit
+下面通过一个例子来说明 explicit 关键字的作用：
 
-##### export
+```cpp
+class A {
+public:
+    explicit A(int x) : m_x(x) {}
+    int getX() const {
+        return m_x;
+    }
 
-##### typeid
+private:
+    int m_x;
+};
 
-##### typename
+void foo(A a) {
+    cout << a.getX() << endl;
+}
+
+int main() {
+    A a1{1}; // 正确，使用显式调用构造函数创建对象
+    A a2 = 2; // 错误，隐式类型转换被禁止了
+    foo(3); // 错误，隐式类型转换被禁止了
+    foo(A{4}); // 正确，使用显式调用构造函数创建对象
+    return 0;
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2023-03-30-23-29-29-image.png)
+
+在上面的代码中，我们定义了一个类 A，其中构造函数被 explicit 修饰。我们在函数 foo 中使用了 A 类型的参数，然后在 main 函数中分别使用了显式调用构造函数和隐式类型转换来创建 A 类型的对象，并尝试将这些对象作为参数传递给函数 foo。
+
+由于构造函数被 explicit 修饰，因此我们无法直接使用隐式类型转换来创建 A 类型的对象，也无法将一个整数隐式转换为 A 类型并作为参数传递给函数 foo。只有通过显式调用构造函数来创建对象，才能正常进行编译。
+
+使用 explicit 关键字可以显式地指定哪些构造函数可以被用于隐式类型转换，从而避免了一些潜在的类型转换错误。使用 explicit 关键字还可以提高代码的可读性，使得代码更加易于理解和维护。
+
+#### export
+
+`export`关键字是C++20中引入的新特性，用于向编译器声明和导出模块接口。它用于定义模块的接口，可以将声明的标识符（函数、变量、类等）导出到模块外部，供其他模块使用。同时，它还可以限定一个模块内的标识符只能被本模块内的其他代码使用，而不能被导出到外部。
+
+`export`关键字通常与`import`关键字一起使用，`import`用于导入其他模块的接口。
+
+下面是一个使用`export`的示例：
+
+```cpp
+// module1.cpp 
+export module module1;
+
+export int add(int a, int b) {
+    return a + b;
+}
+
+export int value = 42;
+
+// main.cpp
+import module1;
+
+int main() {
+    int result = add(2, 3);
+    std::cout << "result: " << result << std::endl;
+    std::cout << "value: " << value << std::endl;
+    return 0;
+}
+```
+
+在上面的示例中，`module1`模块中导出了`add`函数和`value`变量，并在`main.cpp`中使用了这两个标识符。当编译`main.cpp`时，编译器会自动将`module1`模块编译成一个单独的文件，并将其链接到`main`程序中。
+
+需要注意的是，`export`关键字目前还不是所有编译器都支持，具体情况需要查看编译器的文档。
+
+#### typeid和decltype
+
+C++中的`typeid`关键字用于获取一个表达式的类型信息，可以用来判断两个对象是否为同一种类型。具体来说，`typeid`可以返回一个`type_info`类型的对象，该对象包含了表达式的类型信息，可以通过`type_info`对象的`name()`方法获取类型名。`typeid`一般用于运行时类型识别（RTTI）。
+
+> RTTI运行时类型识别（Runtime Type Identification，RTTI）是一种在程序运行时确定对象类型的机制。RTTI通常用于C++中，可以使用typeid运算符来获得对象的类型信息。在程序中，通过将对象转换为其基类或接口类型来使用RTTI。RTTI可以用于在程序运行时进行类型安全的转换和异常处理，但过度使用RTTI可能会导致代码的性能下降。
+> 
+> 与之相关的还有编译时类型识别（Compile-time type checking）
+
+例如，下面的代码可以获取一个变量的类型信息，并输出其类型名：
+
+```cpp
+#include <iostream>
+#include <typeinfo>
+
+int main() {
+    int x = 42;
+    const std::type_info& type = typeid(x);
+    std::cout << type.name() << std::endl;
+    return 0;
+}
+```
+
+输出结果为：
+
+```
+i
+```
+
+这里的`i`表示整数类型。另外，char型的类型值为c,long型的类型值为l,float型为f。简单类型是用的单个字符表示，类或函数用字符串表示，其中会包括返回值类型、参数类型等字符，如：
+
+```cpp
+int fun(long x=0,char y='1'){
+    return 0;
+}
+int main(){
+    const std::type_info& type = typeid(fun);
+    std::cout << type.name() << std::endl;
+}
+```
+
+![](/home/tenerome/.config/marktext/images/2023-04-02-19-21-22-image.png)
+
+第二个i是函数返回值类型，l是第一个参数类型值，c是第二个参数类型值。
+
+另外，C++11中引入了`decltype`关键字，可以用来获取一个表达式的类型，也可以用于函数返回类型的推导等。
+
+C++11中引入了`decltype`关键字，用于获取一个表达式的类型，也可以用于函数返回类型的推导等。`decltype`的基本语法如下：
+
+```cpp
+decltype(expression)
+```
+
+其中，`expression`可以是任意一个表达式，`decltype`会返回该表达式的类型，包括const、引用等修饰符。
+
+下面是几个使用`decltype`的例子：
+
+```cpp
+int x = 42;
+const int& y = x;
+decltype(x) z1 = 0;  // z1的类型为int
+decltype(y) z2 = x;  // z2的类型为const int&
+decltype(x+y) z3 = 0;  // z3的类型为int
+```
+
+在上面的代码中，`z1`的类型为`int`，因为`decltype(x)`的结果是`int`；`z2`的类型为`const int&`，因为`decltype(y)`的结果是`const int&`；`z3`的类型为`int`，因为`decltype(x+y)`的结果是`int`。
+
+另外，`decltype`还可以用于函数返回类型的推导。例如：
+
+```cpp
+template <typename T, typename U>
+auto add(T t, U u) -> decltype(t+u) {
+    return t + u;
+}
+```
+
+在上面的代码中，`decltype(t+u)`用于推导函数返回类型，即`t`和`u`相加的结果类型。
+
+需要注意的是，`decltype`并不会对表达式进行求值，而是仅仅返回表达式的类型。因此，如果表达式中包含了函数调用或运算符重载等操作，`decltype`会返回对应的函数返回类型或运算符重载结果类型，而不是表达式的值。
+
+#### typename
+
+`typename`关键字则用于指明一个名称是类型名称。在C++中，有时需要使用嵌套的类型名称，如类模板中的类型别名或嵌套类的名称等。在这种情况下，需要使用`typename`关键字来指明名称是类型名称而非成员名称。例如：
+
+```cpp
+template <typename T>
+struct my_template {
+    typename T::value_type* ptr;
+};
+```
+
+在上面的代码中，`typename T::value_type`表示T类型中的value_type类型，而不是T类型中的名为value_type的成员变量。如果省略了`typename`关键字，则编译器会将`T::value_type`解释为成员变量名，从而导致编译错误。
 
 #### 四种cast
+
+在C++中，有四种类型转换的方式，它们分别是static_cast、dynamic_cast、const_cast和reinterpret_cast。
+
+1. static_cast：用于基本数据类型的转换，以及非多态类型的转换。例如，将int类型转换为double类型，或将指针类型转换为void*类型。
+   
+   如：
+   
+   ```cpp
+   int a = 10;
+   double b = static_cast<double>(a);  // 将int类型的a转换为double类型的b
+   
+   class Base {};
+   class Derived : public Base {};
+   Base* base = new Derived;
+   Derived* derived = static_cast<Derived*>(base);  // 将基类指针转换为派生类指针
+   ```
+
+2. dynamic_cast：用于多态类型的转换，即具有虚函数的类型。它会在运行时检查是否能够安全地将一个指针或引用转换为目标类型，如果不能则返回NULL。例如，将基类指针转换为派生类指针，或将派生类指针转换为基类指针。
+   
+   ```cpp
+   class Base {
+   public:
+       virtual void print() { cout << "Base" << endl; }
+   };
+   class Derived : public Base {
+   public:
+       void print() { cout << "Derived" << endl; }
+   };
+   
+   Base* base = new Derived;
+   Derived* derived = dynamic_cast<Derived*>(base);  // 将基类指针转换为派生类指针
+   if (derived) {
+       cout<<"derived"<<endl;  // 输出"Derived"
+   }else{
+       cout<<"error deriving";
+   }
+   ```
+
+3. const_cast：用于去除const属性。例如，将const int*类型指针转换为int*类型指针，或将const对象转换为非const对象。
+   
+   ```cpp
+   const int a = 10;
+   int& b = const_cast<int&>(a);  // 将const int类型的a转换为int类型的b的引用
+   b = 20;
+   cout << a << endl;  // 输出10，因为a依然是const类型
+   ```
+
+4. reinterpret_cast：用于进行二进制的低层次转换，不考虑类型之间的关系。例如，将一个指针转换为一个整数，或将一个整数转换为一个指针。
+   
+   ```cpp
+   int a = 10;
+   int* p = &a;
+   long long b = reinterpret_cast<long long>(p);  // 将int类型的指针p转换为long long类型的b
+   cout << b << endl;  // 输出p的地址的十进制表示
+   ```
+
+需要注意的是，这些类型转换都具有一定的风险，需要谨慎使用。特别是reinterpret_cast，容易导致不可预测的错误，应该尽量避免使用。
+
+#### memset
+
+C++ 中的 memset 是一个用于填充内存块的函数，其定义在头文件 `<cstring>` 中。memset 可以将一段内存块的值都设置为指定的值，常用于清空数组或结构体等操作。
+
+memset 函数的语法如下：
+
+```cpp
+void* memset(void* ptr, int value, size_t num);
+```
+
+其中，第一个参数 ptr 是指向内存块的指针，第二个参数 value 是要设置的值（通常是 0 或 -1），第三个参数 num 是要设置的字节数。函数会将 ptr 指向的内存块中的前 num 个字节都设置为 value。
+
+例如，下面的代码使用 memset 函数将一个数组清空：
+
+```cpp
+int arr[10];
+memset(arr, 0, sizeof(arr));
+```
+
+在上面的代码中，我们将 arr 数组中的所有元素都设置为 0。由于数组中有 10 个元素，因此我们传递给 memset 函数的第三个参数是 sizeof(arr)，表示要设置的字节数。
+
+需要注意的是，memset 函数并不会检查数组越界等错误，因此使用时需要确保不会访问到不属于自己的内存区域。此外，对于非 POD 类型（即含有构造函数、析构函数或虚函数的类型），使用 memset 函数可能会导致不可预期的行为，因此需要谨慎使用。
 
 #### assert
 
