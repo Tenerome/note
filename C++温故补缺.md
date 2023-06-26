@@ -164,7 +164,7 @@ int main() {
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2023-03-30-23-29-29-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202306/2629720-20230601154313609-115389541.png)
 
 在上面的代码中，我们定义了一个类 A，其中构造函数被 explicit 修饰。我们在函数 foo 中使用了 A 类型的参数，然后在 main 函数中分别使用了显式调用构造函数和隐式类型转换来创建 A 类型的对象，并尝试将这些对象作为参数传递给函数 foo。
 
@@ -245,7 +245,7 @@ int main(){
 }
 ```
 
-![](/home/tenerome/.config/marktext/images/2023-04-02-19-21-22-image.png)
+![](https://img2023.cnblogs.com/blog/2629720/202306/2629720-20230601154316511-550059457.png)
 
 第二个i是函数返回值类型，l是第一个参数类型值，c是第二个参数类型值。
 
